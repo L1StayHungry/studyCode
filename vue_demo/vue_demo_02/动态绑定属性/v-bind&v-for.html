@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+  <style>
+    .active{
+      color:red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h1>{{message}}</h1>
+    <ul>
+      <li v-for="(m,index) in movies" :class="{active:index===activeIndex}" @click="onClick(index)">{{index+1}}-{{m}}</li>
+    </ul>
+  </div>
+
+  <script src="../../vue.js"></script>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: '你好呀',
+        movies: ['火影','海尔','海贼王'],
+        activeIndex: 0
+      },
+      methods: {
+        onClick:function(index){
+          this.activeIndex=index;
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

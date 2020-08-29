@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+
+<body> 
+
+  <div id="app">
+    <h1>{{message}}</h1>
+
+    <!-- 3.使用组件 -->
+    <!-- <mycpn1></mycpn1>
+    <mycpn1></mycpn1> -->
+    <mycpn2></mycpn2>
+    <mycpn2></mycpn2>
+  </div>
+
+
+  <script src="../../vue.js"></script>
+
+  <script>
+    //1.创建第一个组件
+    const cpnConstrue1=Vue.extend({
+      template: `
+        <div>
+          <h2>1111</h2>
+          <h3>hhhhhhhhh</h3>
+        </div>
+      `
+    })
+    //1.创建第二个组件
+    const cpnConstrue2=Vue.extend({
+      template: `
+        <div>
+          <h2>22222</h2>
+          <h3>wwwwww</h3>
+          <mycpn1></mycpn1>
+        </div>
+      `,
+      // 子组件
+      components:{
+        mycpn1:cpnConstrue1
+      }
+    })
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: '你好呀'
+
+      },
+      methods: {
+
+      },
+      //2.注册组件,局部组件
+      components:{
+        //两个参数：1.组件的标签名；2，组件构造器
+        mycpn1:cpnConstrue1,
+        mycpn2:cpnConstrue2
+      }
+    })
+  </script>
+
+</body>
+
+</html>

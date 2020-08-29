@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>{{message}} {{nextMessage}} {{message+nextMessage}}</h1>
+    <h2>{{counter*2}}</h2>
+  </div>
+  <script src="../../vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data:{
+        message:'你好呀',
+        nextMessage:'我宣你',
+        counter:100
+      },
+      methods:{ 
+  
+      }
+    })
+  </script>
+
+</body>
+
+</html>

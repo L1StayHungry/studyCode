@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+<body>
+  <div id="app">
+    <h1>{{counnter}}</h1>
+    <button @click="increment()">+</button>
+    <button @click="decrement">-</button>
+    <br>
+    <!-- 参数传递 -->
+    <button @click="decrement2(123,$event)">-</button>
+
+    <!-- 事件冒泡 -->
+    <div @click="divclick">
+      <a>111111</a>
+      <!-- 阻止事件冒泡 -->
+      <button @click.stop="buttonclick">button</button>
+    </div>
+
+  </div>
+  
+  <script src="../../vue.js"></script>
+  
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data:{
+        message:'你好呀',
+        counnter: 1
+      },
+      computed:{
+
+      },
+      methods:{ 
+        increment(){
+          this.counnter++
+        },
+        decrement(){
+          this.counnter--
+        },
+        decrement2(abc,event){
+          console.log(abc,event);
+        },
+        divclick(){
+          console.log("divclick");
+        },
+        buttonclick(){
+          console.log("buttonclick");
+        },
+      }
+    })
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <h1>{{message}}</h1> -->
+    <cpn></cpn>
+    <cpn></cpn>
+  </div>
+
+  <template id="cpn">
+    <div>
+        <h2>当前元素：{{counter}}</h2>
+        <!-- <button v-on:click="counter++">+</button> -->
+        <!-- <button v-on:click="counter--">-</button> -->
+        <button v-on:click="add">+</button>
+        <button @click="sub">-</button>
+    </div>
+  </template>
+
+  <script src="../../vue.js"></script>
+
+  <script>
+    // const obj={
+    //   counter:0
+    // }
+    Vue.component('cpn',{
+      template:'#cpn',
+      data(){
+        // return obj
+        return {
+          counter:0
+        }
+      },
+      methods:{
+        add:function(){
+                    console.log('+被执行');
+                    this.counter++
+                },
+                sub:function(){
+                    console.log('-被执行');
+                    this.counter--
+                }
+      }
+    })
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: '你好呀'
+
+      },
+      methods: {
+
+      }
+    })
+  </script>
+
+</body>
+
+</html>

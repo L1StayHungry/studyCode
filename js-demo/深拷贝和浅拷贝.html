@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+
+<body>
+  <h2>深拷贝</h2>
+
+
+  <script>
+    const obj = {
+      name: 'lihuajun',
+      age: 22,
+      likes: {
+        sports: {
+          basketball:1,
+          football:2
+        }
+      }
+    }
+
+    const obj2=deepclone(obj)
+    obj2.name='shuaige'
+    console.log(obj2);
+    
+
+    function deepclone(obj){
+    if(typeof obj!=='object' || obj ==null){
+        return obj
+    }
+
+    let result
+    if(obj instanceof Array){
+        result = []
+    }else{
+        result = {}
+    }
+
+    for(let key in obj){
+        if(obj.hasOwnProperty(key))
+        // 保证key不是原型的属性
+        
+        //递归
+        result[key]=deepclone(obj[key])
+    }
+    return result
+ }
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+
+<body>
+
+  
+
+  <div id="app">
+    <h1>{{message}}</h1>
+    <cpn>11111</cpn>
+
+    <!-- 3.使用组件 -->
+    <mycpn></mycpn>
+    <mycpn></mycpn>
+    <mycpn></mycpn>
+    <mycpn></mycpn>
+  </div>
+
+
+  <script src="../../vue.js"></script>
+
+  <script>
+    //1.创建组件构造器对象
+    //template模板
+    const cpnConstrue=Vue.extend({
+      template: `
+        <div>
+          <h2>1111</h2>
+          <h3>hhhhhhhhh</h3>
+        </div>
+      `
+    })
+    
+    //2.注册组件（全局组件，意味着可以在多个Vue的实例中使用）
+    //两个参数：1.组件的标签名；2，组件构造器
+    // 普通写法Vue.component('mycpn',cpnConstrue)
+    // 全局组件语法糖写法
+    // Vue.component('mycpn',{
+    //   template: `
+    //     <div>
+    //       <h2>1111</h2>
+    //       <h3>hhhhhhhhh</h3>
+    //     </div>
+    //   `
+    // })
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: '你好呀'
+
+      },
+      methods: {
+
+      },
+      //2.注册组件,局部组件
+      components:{
+        //两个参数：1.组件的标签名；2，组件构造器
+        mycpn:cpnConstrue
+        // 局部组件语法糖写法
+        // 'mycpn':{
+        //   template: `
+        //     <div>
+        //       <h2>1111</h2>
+        //       <h3>hhhhhhhhh</h3>
+        //     </div>
+        //   `
+        // }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

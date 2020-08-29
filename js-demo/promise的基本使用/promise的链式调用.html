@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+<body>
+  <script>
+    // wrapped into
+    // 网络请求 aaa
+    // 处理:aaabbb
+    new Promise((resolve,reject) =>{
+      setTimeout(()=>{
+        resolve('aaa')
+      },1000)
+    }).then(res =>{
+      console.log(res,'第一层');
+      // 没有简写
+      // 没有简写
+      return new Promise((resolve,reject)=>{
+        resolve(res+'bbb')
+      })
+    }).then((res)=>{
+      console.log(res,'第二层');
+      // 简写1.0
+      // 简写1.0
+      return Promise.resolve(res+'ccc')
+    }).then(res=>{
+      console.log(res,'第三层');
+      // 简写2.0
+      // 简写2.0
+      return res+'ddd'
+    }).then(res=>{
+      console.log(res,'第四层');
+      
+    }).catch(err=>{
+      console.log(err);
+    })
+  </script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+
+<body>
+  <div id="app">
+    <span v-if="isUser">
+      <label>qq登录</label>
+      <input type="text" id="qqId" placeholder="qq账号" key="qqId">
+      <!-- key用于防止虚拟Dom复用 -->
+    </span>
+    <span v-else>
+      <label>微信登录</label>
+      <input type="text" id="wxId" placeholder="wx账号" key="wxId">
+    </span>
+    <button @click="change_isUser">切换类型</button>
+  </div>
+
+  <script src="../../vue.js"></script>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: '你好呀',
+        isUser:true
+      },
+      methods: {
+        change_isUser(){
+          this.isUser=!this.isUser;
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+<body>
+  <div id="app">
+    <cpn></cpn>
+    <cpn>
+      <!-- 目的是获取子组件中的数据alist -->
+      <!-- 必须要有template -->
+      <template v-slot="slot">
+        <div>
+          <!-- slot.data就是组件传递过来的数据：datalist -->
+          <span v-for="item in slot.data">{{item}}###</span>
+        </div>
+      </template>
+    </cpn>
+  </div>
+  
+  <template id="cpn">
+    <div>
+      <slot :data="alist">
+        <ul>
+          <li v-for="item in alist">{{item}}</li>
+        </ul>
+      </slot>
+    </div>
+  </template>
+  
+  <script src="../../vue.js"></script>
+  
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data:{
+        message:'你好呀'
+  
+      },
+      methods:{ 
+  
+      },
+      components:{
+        cpn:{
+          template:'#cpn',
+          data(){
+            return {
+              alist :['111','222m','333']
+            }
+          }
+        }
+      }
+    })
+  </script>
+  
+</body>
+</html>

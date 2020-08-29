@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+
+<body>
+  <div id="app">
+    <h1>{{messagea}}</h1>
+    <h1 @click="showname">{{namea}}</h1>
+
+    <ul>
+        <li v-for="item in letter" :key="item">{{item}}</li>
+    </ul>
+  </div>
+  
+
+  <script src="../../vue.js"></script>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        messagea: '你好呀ma',
+        letter: ['a', 'b'],
+        namea: 'lihuajun',
+        movies:['codecode','海王','复仇者联盟']
+      },
+      methods: {
+        showname(){
+          console.log(this.namea);
+          console.log("111");
+          this.letter.unshift('aaa');
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+
+  <style>
+    .active{
+      color:red;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <h1>{{message}}</h1> -->
+    <!-- <img v-bind:src="imgUrl" alt=""> -->
+    <a :href="baiduUrl">百度</a>
+    <h2 :class="{active:isActive,line:isline}">111</h2>
+    <button v-on:click="btnClick">按钮</button>
+  </div>
+
+  <script src="../../vue.js"></script>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: '你好呀',
+        imgUrl:'https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=4155840904,1544646553&fm=11&gp=0.jpg',
+        baiduUrl:'http://www.baidu.com',
+        isActive:true,
+        isline:true
+      },
+      methods: {
+        btnClick:function(){
+          this.isActive = !this.isActive
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+
+<body>
+  <div id="app">
+    <!-- <h1 :style="{属性名：属性值}">{{message}}</h1> -->
+    <!-- <h1 :style="{fontSize: '50px'}">{{message}}</h1> -->
+    <!-- 属性值value:要加单引号 -->
+    <h1 :style="{fontSize: fianlSize+'px',backgroundColor:finalColor}">{{message}}</h1>
+    <h1 :style="getStyles()">{{firstName+' '+lastName}}</h1>
+    <h2>{{getFullname()}}</h2>
+    <h2>{{Fullname}}</h2>
+    <h3>总价格；{{totalPrice}}</h3>
+
+
+  </div>
+
+  <script src="../../vue.js"></script>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        message: '你好呀',
+        fianlSize:100,
+        finalColor:'red',
+        firstName:'Li',
+        lastName:'Huajun',
+        books:[
+          {id:100,name:'Java',price:110},
+          {id:100,name:'Java',price:110},
+          {id:100,name:'Java',price:110},
+        ]
+      },
+      computed:{
+        Fullname:function(){
+          return this.firstName+' '+this.lastName
+        },
+        totalPrice:function(){
+          let result=0
+
+          // for(let i=0;i<this.books.length;i++){
+          //   result +=this.books[i].price
+          // }
+          
+          for(let i in this.books){
+            result +=this.books[i].price
+          }
+
+          // for(let book of this.books){
+          //   result +=book.price
+          // }
+
+          return result
+
+          
+        }
+      },
+      methods: {
+        // getStyles:function(){
+        //   return {fontSize: this.fianlSize+'px',backgroundColor:this.finalColor}
+        // }
+        //ES6语法，可以省略'：function'
+        getStyles(){
+          return {fontSize: this.fianlSize+'px',backgroundColor:this.finalColor}
+        },
+        getFullname:function(){
+          return this.firstName+' '+this.lastName
+        }
+      }
+    })
+  </script>
+
+</body>
+
+</html>
