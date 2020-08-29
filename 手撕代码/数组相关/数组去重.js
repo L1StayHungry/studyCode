@@ -9,7 +9,7 @@ console.log(arr_later);
  * 它类似于数组，但是成员的值都是唯一的，没有重复的值。
  * Set 本身是一个构造函数，用来生成 Set 数据结构
  * 
- * [... Set()]和Array.from的作用都是将Set结构转换成数组
+ * [... Set()]和Array.from的作用都是将Set结构转换成数组。均为es6新增。
  */
 function arrRemove(arr) {
     // return [...new Set(arr)];

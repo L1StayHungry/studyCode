@@ -1,5 +1,11 @@
 迭代：
-    every， some， filter， forEach, map
+    every， some， filter， forEach, map， for-in, for-of
+    
+    every() 对数组中的每一项执行函数，如果每一项都返回true那么该方法返回true
+    some() 对数组中的每一项执行函数，只要有一项返回true，那么数组方法返回true
+    filter() 对数组中的每一项执行函数，把里面返回true的项组成一个新的数组返回
+    map() 对数组中的每一项执行函数，返回处理后的每一项
+    forEach() 对数组中的每一项指向函数，没有返回值，类似于for循环
 
 栈方法和队列方法：
     pop, push, shift, unshift
