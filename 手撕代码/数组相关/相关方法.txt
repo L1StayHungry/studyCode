@@ -1,0 +1,14 @@
+迭代：
+    every， some， filter， forEach, map
+
+栈方法和队列方法：
+    pop, push, shift, unshift
+
+排序：
+    sort,
+
+位置：
+    indexOf, lastIndexOf
+
+操作：
+    splice, slice, concat, join
