@@ -1,0 +1,22 @@
+字符串方法
+
+大小写转换方法 
+    toUpperCase(),toLowerCase()
+
+合并方法
+    concat
+
+子串方法 
+    substring, slice, substr(前两者是位置，后者是位置加个数)
+
+修剪方法 
+    trim, trimStart, trimEnd
+
+查找方法 
+    indexOf(),lastIndexOf(),includes(), startsWith(), endsWith()
+
+填充方法 
+    padStart()，padEnd()，repeat()
+
+字符串模式匹配方法 
+    split(),search(),match(),replace()
