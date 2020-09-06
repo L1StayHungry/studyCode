@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+</head>
+<body>
+  <div class="parent">
+    <span>
+      行内元素居中
+    </span>
+  </div>
+
+  <style>
+    .parent{
+      text-align: center;
+    }
+  </style>
+</body>
+</html>
+
+<!-- 
+  优缺点
+
+优点：简单快捷，容易理解，兼容性非常好
+缺点：只对行内内容有效；属性会继承影响到后代行内内容；
+      如果子元素宽度大于父元素宽度则无效，
+      但是后代行内内容中宽度小于设置text-align属性的元素宽度的时候，
+      也会继承水平居中 
+-->
