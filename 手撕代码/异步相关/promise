@@ -1,0 +1,12 @@
+ promise本质上是一个构造函数，
+ 用new关键词来创建，
+ 静态方法有all/race/reject/resolve，
+ 原型方法有then/catch/finally.
+
+异步操作有三种状态：
+  pending等待、fulfilled已完成、rejected已拒绝，
+  resolve是将Promise的状态置为fullfiled，
+  reject是将Promise的状态置为rejected，
+  构造函数中的 resolve 或 reject 只有第一次执行有效，
+  多次调用没有任何作用。
+  promise 状态一旦改变则不能再变。
