@@ -8,7 +8,10 @@
     forEach() 对数组中的每一项指向函数，没有返回值，类似于for循环
 
 栈方法和队列方法：
-    pop, push, shift, unshift
+    pop, //删除最后一个元素
+    push, //末尾添加新元素
+    shift, //删除首元素，并返回该元素
+    unshift //开头添加新元素
 
 排序：
     sort,
@@ -17,4 +20,16 @@
     indexOf, lastIndexOf
 
 操作：
-    splice, slice, concat, join
+    splice, //拼接数组，可用于向数组添加新项。第一个参数定义了应添加新元素的位置（拼接）。第二个参数定义应删除多少元素。其余参数定义要添加的新元素
+    slice, //删除元素。第一个参数定义元素应该被删除的位置。第二个参数定义应该删除多个元素。
+    concat, //合并数组
+    join
+
+其他：
+    Array.isArray('数组名')；//判断是否为数组
+
+将类数组转换成数组:
+    类数组，比如arguments，拥有length属性，可以使用下标访问，但是没有数组方法
+    1、新建空数组，遍历类数组，将类数组对象添加到新数组中
+    2、通过Array.prototype.slice.call(arraylike)将类数组对象传入，相当于把参数全部截取，返回新数组
+    3、es6中的Array.from(arraylike)

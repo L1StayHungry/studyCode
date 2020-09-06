@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title></title>
+
+  
+</head>
+<body>
+  <div id="box">
+    <div id="bbox">
+      <div id="bbbox">
+        <p>事件委托</p>
+      </div>
+    </div>
+  </div>
+
+<script>
+  window.onload = function(){
+    var box =document.getElementById('box');
+    console.log(box);
+    
+    box.addEventListener('click',function(event){
+      console.log(event);
+      console.log(event.target.id);
+      
+      switch(event.target.id){
+        case 'box':
+          console.log('点击了box');
+          break;
+        case 'bbox':
+          console.log('点击了bbox');
+          break;
+        case 'bbbox':
+          console.log('点击了bbbox');
+          break;
+        default:
+      }
+    },false)
+  }
+</script>
+
+<style>
+  div {
+    padding: 20px;
+    background-color: #666666;
+  }
+  #box {
+    padding: 20px;
+    background-color: #999999;
+  }
+  #bbbox {
+    background-color: #ffffff;
+  }
+  p {
+    background-color: red;
+  }
+</style>
+</body>
+</html>
