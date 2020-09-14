@@ -7,16 +7,31 @@
     concat
 
 子串方法 
-    substring, slice, substr(前两者是位置，后者是位置加个数)
+    substring, 
+    slice, 
+    substr(前两者是位置，后者是位置加个数)
 
 修剪方法 
-    trim, trimStart, trimEnd
+    trim, 
+    trimStart, 
+    trimEnd
 
-查找方法 
-    indexOf(),lastIndexOf(),includes(), startsWith(), endsWith()
+查找方法
+    charAt(),返回字符串中的第 n 个字符
+    charCodeAt(),返回字符串中的第 n 个字符的代码
+    indexOf(),检索字符串
+    lastIndexOf(),从后向前检索一个字符串
+    includes(), 
+    startsWith(), 
+    endsWith()
 
 填充方法 
-    padStart()，padEnd()，repeat()
+    padStart()，
+    padEnd()，
+    repeat()
 
 字符串模式匹配方法 
-    split(),search(),match(),replace()
+    split(),
+    search(),检索与正则表达式相匹配的子串
+    match(),找到一个或多个正则表达式的匹配
+    replace()
