@@ -2,7 +2,7 @@ function debounce(func,wait,immediate){
     // 定时器
     var timeout;
     return function() {
-        // 清楚定时器
+        // 清除定时器
         clearTimeout(timeout);
         timeout = setTimeout(func, wait);
     }
