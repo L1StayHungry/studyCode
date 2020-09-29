@@ -8,13 +8,14 @@
 
 子串方法 
     substring, 
+    split,以xxx为界限分割为数组  //split('xxx')
     slice, 
     substr(前两者是位置，后者是位置加个数)
 
 修剪方法 
     trim, 
     trimStart, 
-    trimEnd
+    trimEnd，
 
 查找方法
     charAt(),返回字符串中的第 n 个字符
@@ -34,4 +35,4 @@
     split(),
     search(),检索与正则表达式相匹配的子串
     match(),找到一个或多个正则表达式的匹配
-    replace()
+    replace(),字符串替换 //  /xxxx/g 全局替换xxxx   如const aa =a.replace(/\./g,'');把.替换成无（全局）
