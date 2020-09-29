@@ -9,8 +9,12 @@ let arr = {
 }
 
 let deepClone_arr = deepClone(arr)
+let deepClone2_arr = deepClone2(arr)
 deepClone_arr.name = 'hahaha'
-console.log(deepClone_arr)
+deepClone2_arr.name = '超方便'
+console.log(deepClone_arr);
+console.log(deepClone2_arr);
+
 
 function deepClone(item){
     // 'object'记得加引号；不要漏了null
@@ -33,4 +37,8 @@ function deepClone(item){
     }
 
     return result
+}
+
+function deepClone2(arr){
+    return JSON.parse(JSON.stringify(arr))
 }

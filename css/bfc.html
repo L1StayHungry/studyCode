@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>BFC</title>
+  <style>
+  img:first-child {
+    float:left;
+  }
+  .container {
+    overflow: hidden; /*触发元素BFC*/
+  }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1601373985328&di=b9ab155cc4600b5ef7df7d233e03ef79&imgtype=0&src=http%3A%2F%2Faliyunzixunbucket.oss-cn-beijing.aliyuncs.com%2Fjpg%2F7a81abd960ba19439ecaaa267c0789f6.jpg%3Fx-oss-process%3Dimage%2Fresize%2Cp_100%2Fauto-orient%2C1%2Fquality%2Cq_90%2Fformat%2Cjpg%2Fwatermark%2Cimage_eXVuY2VzaGk%3D%2Ct_100" alt="">
+    <p>某一段文字</p>
+  </div>
+</body>
+</html>

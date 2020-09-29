@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>盒子模型</title>
+  <style type="text/css">
+    #div1 {
+      width: 100px;
+      padding: 10px;
+      border: 5px solid #cccccc;
+      margin: 10px;
+    }
+    #div2 {
+      width: 100px;
+      padding: 10px;
+      border: 5px solid #cccccc;
+      margin: 10px;
+      box-sizing: border-box; /*  为元素设定的宽度和高度决定了元素的边框盒。 */
+    }
+  </style>
+</head>
+<body>
+  <div id="div1">
+    this is div1
+  </div>
+  <div id="div2">
+      this is div2
+    </div>
+
+  <script>
+    // 标准盒子模型
+    var div1_offsetWidth = document.getElementById('div1').offsetWidth
+    console.log(div1_offsetWidth);//130  
+    // （内边距+边框）*2+width
+    
+    // 怪异盒模型/IE盒模型
+    var div2_offsetWidth = document.getElementById('div2').offsetWidth
+    console.log(div2_offsetWidth);//100 
+    // width 
+    
+  </script>
+</body>
+</html>
