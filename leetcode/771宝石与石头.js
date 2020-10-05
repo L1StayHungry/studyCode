@@ -21,13 +21,21 @@ J 中的字母不重复，J 和 S中的所有字符都是字母。字母区�
  * @param {string} S
  * @return {number}
  */
+// var numJewelsInStones = function(J, S) {
+//   const len = S.length;
+//   let count = 0;
+//   for(let i =0;i < len;i++){
+//     J.indexOf(S[i]) != -1 && count++
+//   }
+//   return count;
+// };
 var numJewelsInStones = function(J, S) {
   const len = S.length;
   let count = 0;
+  let J_set = new Set(J.split(''))
   for(let i =0;i < len;i++){
-    J.indexOf(S[i]) != -1 && count++
+    J_set.has(S[i]) && count++
   }
   return count;
 };
-
 console.log(numJewelsInStones('aA','aAAabbbbc'));
