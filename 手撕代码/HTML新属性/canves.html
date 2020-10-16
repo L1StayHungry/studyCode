@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>canves的简单使用</title>
+</head>
+<body>
+  <canvas id='a' width="500" height="500"></canvas>
+</body>
+
+<script type="text/javascript">
+  var ctx=document.getElementById("a").getContext("2d");
+  //移动圆心位置100,100
+  ctx.translate(100,100);
+  //绘制扇形
+  ctx.beginPath();
+  /*
+  ctx.moveTo(0,0);
+  ctx.lineTo(80,0);]
+  */
+  ctx.arc(0,0,80,0,(60/180)*Math.PI,false);
+  ctx.lineTo(0,0);
+  ctx.fillStyle="red";
+  ctx.fill();
+  ctx.stroke();
+
+  //存储状态1，目的是存储坐标系
+  ctx.save();
+
+
+  //选装坐标，角度为之前所有扇形弧度之和
+  ctx.rotate((60/180)*Math.PI);
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.lineTo(80,0);
+  ctx.arc(0,0,80,0,(60/180)*Math.PI,false);
+  ctx.lineTo(0,0);
+  ctx.fillStyle="blue";
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.restore();//恢复状态1
+  ctx.save();//存储状态1
+  //旋转坐标，角度为之前扇形弧度之和
+  ctx.rotate(((60+80)/180)*Math.PI);
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.lineTo(80,0);
+  ctx.arc(0,0,80,0,(120/180)*Math.PI,false);
+  ctx.lineTo(0,0);
+  ctx.fillStyle="purple";
+  ctx.fill();
+  ctx.stroke();
+
+  //
+  ctx.restore();//恢复状态1
+  ctx.save();//存储状态1
+  //旋转坐标，角度为之前扇形弧度之和
+  ctx.rotate(((60+80+120)/180)*Math.PI);
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.lineTo(80,0);
+  ctx.arc(0,0,80,0,(100/180)*Math.PI,false);
+  ctx.lineTo(0,0);
+  ctx.fillStyle="yellow";
+  ctx.fill();
+  ctx.stroke();
+
+</script>
+</html>
