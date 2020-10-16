@@ -53,10 +53,17 @@
     opacity: 0.5;
 }
 #footer {
-    clear: both;  
+    /* clear: both;   */
     /*注意清除浮动!!*/
     height: 60px;
     background-color: #555555;
+}
+
+/* 手写clearfix */
+#center::after{
+    content: '';
+    clear: both;
+    display:table;
 }
 </style>
 </html>
