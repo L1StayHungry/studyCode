@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<!-- 1 -->
+<html lang="en"> 
+
+<!-- 2 -->
+<head>
+    <!-- 3 -->
+    <meta charset="UTF-8">
+    <!-- 4 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 5 -->
+    <title>test02</title>
+    <!-- 6 -->
+    <script>
+        // 传入document,用nodetype/childNodes对整个文档的元素进行遍历
+        window.onload = function() {
+            function count(n) {
+                var num = 0;
+                if (n.nodeType == 1) {
+                    num++;
+                }
+                var son = n.childNodes;
+                for (var i = 0; i < son.length; i++) {
+                    num += count(son[i]);
+                }
+                return num;
+            }
+            console.log("当前文档包含 " + count(document) + "个元素");
+        }
+    </script>
+</head>
+
+<!-- 7 -->
+<body>
+    <!-- 8 -->
+    <h1>DOM</h1>
+    <!-- 9/10/11/12 -->
+    <p>DOM是<cite>Document Object Model</cite>首字母简写，中文翻译为<b>文档对象模型</b>，是<i>W3C</i>组织推荐的处理可扩展标识语言的标准编程接口</p>
+    <!-- 13 -->
+    <ul>
+        <!-- 14 -->
+        <li>D表示文档，HTML文档结构</li>
+        <!-- 15 -->
+        <li>O表示对象，文档结构的js脚本化映射</li>
+        <!-- 16 -->
+        <li>M表示模型，脚本与结构交互的方法和行为</li>
+    </ul>
+</body>
+
+</html>
