@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test02</title>
+</head>
+
+<body>
+    <div id="box"></div>
+
+    <script>
+      (function() {
+        let p = document.createElement('p');
+        let txt = document.createTextNode('点击我可以新增一个节点噢！');
+        // p.style.color = red;
+        p.style.width = '300px';
+        p.appendChild(txt);
+        p.onclick = function(){
+          console.log('我真的被点击了');
+          
+          let pp = document.createElement('p');
+          let txt = document.createTextNode('我是新增的节点');
+          // p.style.color = red;
+          pp.style.color = 'red';
+          pp.appendChild(txt);
+          
+          document.getElementById('box').appendChild(pp)
+        }
+        document.getElementById('box').appendChild(p)
+      })()
+    </script>
+</body>
+
+</html>

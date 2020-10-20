@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test02</title>
+    <script>
+        window.onload = function() {
+
+            var ul = document.getElementsByTagName("ul")[0];
+            ul.onclick = function() {
+                this.style.border = "solid blue 1px";
+            }
+            var ul1 = ul.cloneNode(true);
+            document.body.appendChild(ul1);
+
+        }
+    </script>
+</head>
+
+<body>
+    <h1>DOM</h1>
+    <p>DOM是<cite>Document Object Model</cite>首字母简写，中文翻译为<b>文档对象模型</b>，是<i>W3C</i>组织推荐的处理可扩展标识语言的标准变成接口</p>
+    <ul>
+        <li>D表示文档，HTML文档结构</li>
+        <li>O表示对象，文档结构为js脚本化映射</li>
+        <li>M表示模型，脚本与结构交互的方法和行为</li>
+    </ul>
+</body>
+
+</html>
