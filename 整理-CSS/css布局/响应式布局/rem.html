@@ -1,0 +1,44 @@
+<!-- em:相对长度单位，相对于父元素，不常用 -->
+<!-- rem:相对长度单位，相对于根元素，常用于响应式布局 -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>rem演示</title>
+
+  <style>
+    html{font-size: 100px;}
+    @media(max-width:540px){ html { font-size:84.375px; } } /*Android常用宽度*/
+    @media(max-width:480px){ html { font-size:75px; } }		/*Android常用宽度*/
+    @media(max-width:414px){ html { font-size:64.69px; } }  /*i6Plus,i7Plus宽度*/  
+    @media(max-width:375px){ html { font-size:58.59px; } }	/*i6,i7宽度*/
+    @media(max-width:360px){ html { font-size:56.25px; } }	/*Android常用宽度*/
+    @media(max-width:320px){ html { font-size:50px; } }	
+
+    .center{
+      background-color: red;
+    }
+
+    .left{
+      background-color: yellow;
+      width: 10rem;
+      opacity: 0.5;
+    }
+
+    .right{
+      background-color: blue;
+      width: 10rem;
+      opacity: 0.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="center">
+    我是中心
+  </div>
+  <div class="left">我是左边</div>
+  <div class="right">我是右边</div>
+</body>
+</html>
