@@ -67,7 +67,16 @@
 
 ### 事件监听
 
-- v-on
+#### v-on
+
+- 当函数有参数传递但是使用时没有传参时，默认传浏览器event对象
+
+- 获取浏览器产生的对象：
+
+  > ```javascript
+  > $event
+  > <button @click="decrement2(123,$event)">···</button>
+  > ```
 
 ```html
 <button @click="btnClick()">按钮1</button>
@@ -86,5 +95,35 @@ methods : {
 - .prevent     
   - 阻止默认事件
 - .{ keyCode | keyAlias }
+  - 监听某个键盘的键帽
+  - @keyup.enter
 - .native
+  - 监听组件根元素的原生事件
 - .once
+  - 只触发一次回调
+
+### 组件的显示与隐藏
+
+#### v-if & v-else
+
+#### v-show
+
+- 
+
+### 计算属性
+
+computed
+
+- 计算属性有缓存，比methods效率更高
+
+- setter和getter
+
+  - 一般不写set,只读属性
+
+  - ```javascript
+    computed: {
+        something() {
+            return this.anything
+        }
+    }
+    ```
