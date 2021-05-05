@@ -76,3 +76,49 @@
 
 - 早期：早期部分浏览器不支持js, 优雅降级
 - 现在：浏览器对脚本的支持被关闭时，显示。
+
+### 三、语言基础
+
+#### 语法
+
+- 严格模式。ES5添加的。
+
+```
+
+```
+
+- 关键字/保留字
+
+```
+关键字：不能作为标识符和属性名
+break     do        in            typeof
+case      else      instanceof    var
+catch     export    new           void
+class     extends   return        while
+const     finally   super         with
+continue  for       switch        yield
+debugger  function  this
+default   if        throw
+delete    import    try
+```
+
+```
+保留字:不能作为标识符但可以作为属性名
+始终保留：
+enum
+严格模式下保留:
+implements    interface    let
+package       protected    private
+public        static
+模块代码中保留
+await
+```
+
+- 变量： var let (const) 。let和const为ES6及之后版本可使用
+  - 在函数内，定义变量但是省略了var操作符时，会创建一个全局变量（局部作用域中的全局变量）。严格模式下禁止，抛出ReferenceError。
+
+#### 数据类型
+
+#### 流控制语句
+
+#### 函数
