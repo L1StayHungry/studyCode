@@ -40,10 +40,61 @@
   - 安装： npm install -g create-vite-app
   - 创建项目：create-vite-app projectName
 
-### 兼容v2.x
+## 兼容v2.x
 
 - 2.x的问题。数据和业务逻辑分散了。
-- 组合API。
-  - setup(){}  组合api入口函数
-  - composition API(vue 3), option API(vue2)
-  - 本质：composition api注入到option api
+
+## 组合API
+
+- setup(){}  组合api入口函数
+- composition API(vue 3), option API(vue2)
+- 本质：composition api注入到option api
+
+## setup执行时机及注意点
+
+- 执行时间
+  - beforeCreate -> setup -> created
+  - setup 不可以使用 data()、methods()
+- setup只能是同步的，不能是异步的
+
+## reactive
+
+- 是vue3提供的响应式数据的方法
+
+- vue2中的响应式数据通过defineProperty实现，Vue3则通过ES6的proxy实现
+
+- 注意点：
+
+  - 参数必须是对象（/json/arr）
+
+  - ---
+
+## ref
+
+- 实现简单值的监听
+
+- ref本质还是一个reactive,ref函数底层自动将ref转换成reactive。 ref(18) => reactive({value: 18})
+- 通过isRef()和isReactive()判断两者区别
+
+## 递归监听
+
+- 默认情况下创建的数据（ref, reactive）都是递归监听
+-  每一层都包装了一个proxy对象
+- shallowReactive
+- shallowRef
+- triggerRef。根据修改过的数据更新。
+
+## toRaw
+
+- 从reactive或ref中获得原始数据 
+- 做一些不想被监听的事情
+
+## markRaw
+
+- 数据永远不想被追踪
+
+## toRef
+
+- 复制生成响应式数据
+  - ref->复制，不会影响以前的数据
+  - toRef->会影响被复制的数据，界面（被复制的数据）不会自动更新
