@@ -65,4 +65,9 @@ const findPoisonedDuration = function(timeSeries, duration) {
   count += duration
   return count
 };
-console.log(findPoisonedDuration([1,3,5,7,9,11],1));
+// console.log(findPoisonedDuration([1,3,5,7,9,11],1));
+
+
+/**********************************************
+ * 414.
+ */
