@@ -69,5 +69,21 @@ const findPoisonedDuration = function(timeSeries, duration) {
 
 
 /**********************************************
- * 414.
+ * 414.第三大的数
  */
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+const thirdMax = function(nums) {
+  nums = Array.from(new Set(nums.sort((a,b) => b - a)))
+  if(nums.length <= 2) return nums[0]
+  return nums[2]
+};
+
+// console.log(thirdMax([1,2,2,3,4,5,5,5]));
+
+/**********************************************
+ * 628.三个数的最大乘积
+ */
+
