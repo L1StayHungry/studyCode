@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vue</title>
+</head>
+
+<body>
+    <script src="./dep.js"></script>
+    <script src="./watcher.js"></script>
+    <script>
+        //observe: 检查对象上是否有ob属性，如果存在，则表明该对象已经处于Observer的观察中，如果不存在，则new Observer来观察对象
+        function observe(value) {
+            let ob = null;
+            //如何已经进行过响应式监听，则直接返回监听实例
+            if (hasOwn(value, '__ob__') && value.__ob__ instanceof Observer) {
+                ob = value.__ob__
+            } else if (
+                Array.isArray(value) || isPlainObject(value)
+            ) {
+                ob = new Observer(value)
+            }
+            return ob
+        }
+
+        class Observer {
+            constructor(value) {
+                this.value = value
+                this.dep = new Dep()
+                this.vmCount = 0
+                //给监听的对象增加一个已监听的标志位
+                def(value, '__ob__', this)
+                if (Array.isArray(value)) {
+                    //如果传进来的data是一个数组时，递归遍历他，直到他拆解成一个对象
+                    this.observeArray(value)
+                } else {
+                    //如果是纯对象的话，调用walk方法
+                    this.walk(value)
+                }
+            }
+
+            //如果是纯对象的话
+            walk(obj) {
+                const keys = Object.keys(obj)
+                for (let i = 0; i < keys.length; i++) {
+                    defineReactive(obj, keys[i], obj[keys[i]])
+                }
+            }
+
+            //如果是数组的话
+            observeArray(items) {
+                for (let i = 0, l = items.length; i < l; i++) {
+                    let obse = observe(items[i])
+                }
+            }
+        }
+
+        function defineReactive(obj,
+            key,
+            val,
+            customSetter,
+            shallow) {
+            const dep = new Dep() 
+            const property = Object.getOwnPropertyDescriptor(obj, key)
+            if (property && property.configurable === false) {
+                return
+            }
+            // cater for pre-defined getter/setters
+            const getter = property && property.get
+            const setter = property && property.set
+            //判断如果data的其中一个对象也是一个对象，递归添加响应式
+            let childOb = !shallow && observe(val)
+            Object.defineProperty(obj, key, {
+                enumerable: true,
+                configurable: true,
+                get: function reactiveGetter() {
+                    const value = getter ? getter.call(obj) : val
+                    if (Dep.target) {
+                        dep.depend()
+                        if (childOb) {
+                            childOb.dep.depend()
+                        }
+                    }
+                    return value
+                },
+                set: function reactiveSetter(newVal) {
+                    const value = getter ? getter.call(obj) : val
+                    /* eslint-disable no-self-compare */
+                    if (newVal === value || (newVal !== newVal && value !== value)) {
+                        return
+                    }
+                    if (setter) {
+                        setter.call(obj, newVal)
+                    } else {
+                        val = newVal
+                    }
+                    childOb = !shallow && observe(newVal)
+                    dep.notify()
+                }
+            })
+        }
+
+        //渲染函数的时候会访问所有的getter，就会去订阅，订阅完了后把旧的订阅清空
+        function isPlainObject(obj) {
+            return Object.prototype.toString.call(obj) === '[object Object]'
+        }
+
+        function hasOwn(obj, key) {
+            return Object.prototype.hasOwnProperty.call(obj, key)
+        }
+
+        //设置成不可枚举，以免影响性能
+        function def(obj, key, val, enumerable) {
+            Object.defineProperty(obj, key, {
+                value: val,
+                enumerable: !!enumerable,
+                writable: true,
+                configurable: true
+            });
+        }
+
+        class vue {
+            constructor(options) {
+                this._init(options)
+            }
+
+            _init(options) {
+                let vm = this;
+                this.$options = options
+                this.initState(vm);
+
+                if (vm.$options.el) {
+                    vm.$mount(vm.$options.el);
+                }
+            }
+            initState(vm) {
+                if (this.$options.data) {
+                    this.initData(vm)
+                } else {
+                    observe(vm._data = {}, true /* asRootData */ )
+                }
+            }
+            initData(vm) {
+                let data = this.$options.data
+                data = vm._data = typeof this.$options.data == 'function' ? data() : data
+                let key = Object.keys(data)
+                for (let i = 0; i < key.length; i++) {
+                    proxy(this.$options.data, key[i], vm)
+                }
+                //观察data
+                observe(data, true /* asRootData */ )
+            }
+        }
+
+        function proxy(data, key, vm) {
+
+            Object.defineProperty(vm, key, {
+                get: function proxyGetter() {
+                    return data[key]
+                },
+                set: function proxySetter(val) {
+                    data[key] = val
+                }
+            })
+        }
+
+        function creatDom(obj) {
+            let div = document.createElement('div')
+            let body = document.getElementsByTagName('body')[0]
+            div.innerHTML = `${obj.name}-${obj.age}-${obj.other['money']} `;
+            body.appendChild(div)
+        }
+
+        let obj = new vue({
+            data: {
+                name: 'lisan',
+                age: 18,
+                other: {
+                    height: '180',
+                    money: '100万',
+                },
+            }
+        })
+        //new watcher 会把渲染函数赋值给gerter，并且执行get方法，get方法会执行pushTarget并且把当前watcher传入，
+        //在调用渲染函数。渲染函数会调用data里每一个对象的get，因为前面pushTarget了，所以target就有值了，进行 dep.depend()，
+        //  dep.depend()会调用Dep.target.addDep，会把dep实例的id和实例push进去，完成依赖收集
+        new Watcher(obj, creatDom)
+        // setTimeout(() => {
+        //     obj.age = 11
+        // }, 1000)
+        setTimeout(() => {
+            obj.other['money'] = 200
+        }, 2000)
+    </script>
+
+</body>
+
+</html>

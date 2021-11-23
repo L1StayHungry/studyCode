@@ -1,5 +1,5 @@
 # PromiseA+规范
-
+参考文档：[PromiseA+规范](https://www.ituring.com.cn/article/66566)
 ## 术语
 
 1. promise 是一个有then方法的对象或者是函数，行为遵循本规范
