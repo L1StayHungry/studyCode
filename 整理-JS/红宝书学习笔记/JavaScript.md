@@ -41,6 +41,11 @@
       - cookie支持
       - 其他，如XMLHttpRequest
 
+#### ES6
+
+- 模板字面量---使用`我是字符串`反引号定义字符串
+- symbol符号，ES6新增
+
 ### 二、HTML中的Js
 
 #### < script />元素
@@ -128,8 +133,108 @@ await
 - 变量： var let (const) 。let和const为ES6及之后版本可使用。**var是函数作用域，let是块作用域。**
   - 在函数内，定义变量但是省略了var操作符时，会创建一个全局变量（局部作用域中的全局变量）。**严格模式下禁止**，抛出ReferenceError。
   - **var声明提升**。变量的**声明**被提升到了作用域的顶部
+  - 全局声明。全局作用域中声明的变量，let不会成为window对象的属性，var会
 
 #### 数据类型
+
+- 基本数据类型
+
+  - undefined。值未定义。
+
+  ```
+  // undefined是由null派生出来的
+  null == undefined  // true
+  // ==操作符会为了比较二转换它的操作数
+  ```
+
+  - null。空对象指针。
+  - number数值。双精度。
+
+  ```
+  // 默认十进制
+  
+  // 八进制（严格模式下无效）
+  let octalNum1 = 070 // 八进制的56
+  let octalNUm3 = 08 // 无效，当成8处理
+  
+  // 十六进制 前缀0x(零·)
+  let hexNum1 = 0xA; // 10
+  
+  小数点后面如果没有数字或数字是0，ES会把值转换为整数，
+  
+  NaN不等于任何包括NaN在内的任何值
+  
+  // 数值转换
+  Number()  parseInt()  parseFloat()
+  Number(null) //0
+  Number(undifined) //NaN
+  Number..如果字符串包含有效的十六进制则转换为对应的十进制整数值
+  PasreInt..如果开头不是数字或加减号，返回NaN
+  ```
+
+  - string字符串
+
+  ```
+  字符串本身是不可变的，通常情况下的修改字符串的值本质上是新建另一个字符串
+  
+  //转换为字符串
+  let age = 10;
+  age.toString(); // ‘10’
+  age.toString(8); // '12'
+  //如果是数字的话可以转为进制
+  
+  //ES6新增：模板字面量---使用`我是字符串`反引号定义字符串
+  
+  //原始字符串 String.raw()
+  console.log(`\u00A9`); // ©
+  console.log(String.raw`\u00A9`); // \u00A9
+  ```
+
+  - boolean布尔值
+
+  ```
+  Boolean('hhh') // true
+  
+  数据类型     转换为 true 的值     转换为 false 的值
+  Boolean          true                 false
+  String        非空字符串            ""（空字符串）
+  Number      非零数值（包括无穷值） 0、NaN（参见后面的相关内容）
+  Object          任意对象               null
+  Undefined      N/A（不存在）          undefined
+  ```
+
+  - symbol符号，ES6新增
+
+  ```
+  //符号的用途是确保对象属性使用唯一标识符，不会发生属性冲突的危险。
+  
+  //Symbol()函数不能和new一起使用
+  ```
+
+- 复杂数据类型
+
+  - object
+
+- typeof 是操作符。可带参数也可不带【typeof 'hhh' === typeof( 'hhh' )】
+
+  ```javascript
+  typeof a;    //'undefined'
+  typeof(true);  //'boolean'
+  typeof '123';  //'string'
+  typeof 123;   //'number'
+  typeof NaN;   //'number'
+  typeof null;  //'object' 
+  
+  var obj = new String();
+  typeof(obj);    //'object'
+  
+  var  fn = function(){};
+  typeof(fn);  //'function'
+  
+  typeof(class c{});  //'function'
+  严格来讲，函数在 ECMAScript 中被认为是对象，并不代表一种数据类型。可是，函数也有自己特殊的属性。为此，就有必要通过 typeof 操作符来区分函数和其他对象。
+  ```
+
 
 #### 流控制语句
 
