@@ -49,6 +49,7 @@
 - Set、weakSet
 - Object.is( )   (和===类似，但更完善)
 - 对象解构
+- 代理与反射
 
 ### 二、HTML中的Js
 
@@ -910,3 +911,82 @@ ES6新增
 
 
 
+### 九、代理和反射
+
+给目标对象定义一个关联的代理对象，而这个代理对象可以作为抽象的目标对象来使用。在对 目标对象的各种操作影响目标对象之前，可以在代理对象中对这些操作加以控制
+
+#### 代理基础
+
+- 代理是目标对象的抽象
+- 类似C++指针
+- Proxy构造函数创建（目标对象，处理程序对象）
+- 使用代理的主要目的是可以定义**捕获器（trap）**,每个处理程序对象可以包含零个或多个捕获器，每个捕获器都对应一种基本操作，可以直接或间接在代理对象上调用。
+
+```
+// 定义get捕获器
+const target = {
+ foo: 'bar'
+};
+const handler = {
+ // 捕获器在处理程序对象中以方法名为键
+ get() {
+ return 'handler override';
+ }
+};
+const proxy = new Proxy(target, handler);
+```
+
+- 捕获器参数和反射API
+
+  - 全局Reflect对象的同名方法
+
+  - ```javascript
+    const target = {
+     foo: 'bar',
+     baz: 'qux'
+    };
+    const handler = {
+     get(trapTarget, property, receiver) {
+     let decoration = '';
+     if (property === 'foo') {
+     decoration = '!!!';
+     }
+     return Reflect.get(...arguments) + decoration;
+     }
+    };
+    const proxy = new Proxy(target, handler);
+    console.log(proxy.foo); // bar!!!
+    console.log(target.foo); // bar
+    console.log(proxy.baz); // qux
+    console.log(target.baz); // qux 
+    ```
+
+  - 捕获器不变式
+  - 可撤销代理
+  - 实用反射API
+
+#### 代理捕获器与反射方法
+
+- 代理可以捕获13种不同的基本操作，这些操作有各自不同的反射API方法、参数、关联ES操作和不变式
+- 任何一种操作，只会有一个捕获处理程序被调用
+- get() -- Reflect.get()
+- set() -- Reflect.set()
+- has() -- Reflect.has()
+- defineProperty()
+- getOwnPropertyDescriptor
+- deleteProperty()
+- ownKeys( )
+- getPrototypeOf()
+- setPrototypeOf()
+- isExtensible()
+- preventExtensions()
+- apply()
+- construct()
+
+#### 代理模式
+
+- 跟踪属性访问
+- 隐藏属性
+- 属性验证
+- 函数与构造函数参数验证
+- 数据绑定与可观察对象
