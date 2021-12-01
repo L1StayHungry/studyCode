@@ -52,6 +52,8 @@
 - 代理与反射
 - 箭头函数
 - 函数实现默认参数值
+- Promise/A+
+- async/await(es8)
 
 ### 二、HTML中的Js
 
@@ -1081,3 +1083,21 @@ const proxy = new Proxy(target, handler);
 （function() { //块级作用域 }）()
 
 #### 私有变量
+
+### 十一、期约与异步函数
+
+#### 异步编程
+
+#### 期约
+
+- Promise/A+规范
+
+- Promise
+  - 状态机：pending、fulfilled、rejected
+  - resolve, reject
+  - then catch finally
+  - Promise.all() 、Promise.race()
+
+#### 异步函数
+
+- async/await
