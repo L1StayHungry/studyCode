@@ -47,6 +47,8 @@
 - symbol符号，ES6新增
 - Map、weakMap
 - Set、weakSet
+- Object.is( )   (和===类似，但更完善)
+- 对象解构
 
 ### 二、HTML中的Js
 
@@ -732,4 +734,179 @@ ES6新增
 
 ### 八、对象、类与面向对象编程
 
+无序集合
+
 #### 理解对象
+
+- 属性的类型
+
+  - 数据属性
+
+    - [[Configurable]]：表示属性是否可以通过 delete 删除并重新定义
+
+    - [[Enumerable]]：表示属性是否可以通过 for-in 循环返回
+
+    - [[Writable]]：表示属性的值是否可以被修改
+
+    - [[Value]]：包含属性实际的值
+
+    - 要修改对象的默认特性，就必须使用Object.defineProperty
+
+    - ```javascript
+      let person = {};
+      Object.defineProperty(person, "name", {
+       writable: false,
+       value: "Nicholas"
+      });
+      console.log(person.name); // "Nicholas"
+      person.name = "Greg";
+      console.log(person.name); // "Nicholas" 
+      ```
+
+  - 访问器属性
+
+    - [[get]]：获取函数，在读取属性时调用。默认值为 undefined。
+
+    - [[set]]：设置函数，在写入属性时调用。默认值为 undefined。
+
+    - [[Configurable]]：表示属性是否可以通过 delete 删除并重新定义
+
+    - [[Enumerable]]：表示属性是否可以通过 for-in 循环返回
+
+    - 访问器属性是不能直接定义的，必须使用 Object.defineProperty()。
+
+    - ```javascript
+      // 定义一个对象，包含伪私有成员 year_和公共成员 edition
+      let book = {
+       year_: 2017,
+       edition: 1
+       };
+      Object.defineProperty(book, "year", {
+       get() {
+       return this.year_;
+       },
+       set(newValue) {
+       if (newValue > 2017) {
+       	this.year_ = newValue;
+       	this.edition += newValue - 2017;
+         }
+       }
+      });
+      book.year = 2018;
+      console.log(book.edition); // 2 
+      ```
+
+    - 合并对象
+
+      Object.assign(targetObj, obj1, ?obj2...): 实际上是对每个源对象执行浅复制（如果对象内部还有引用值，慎用），如果多个源对象有相同的属性则使用最后一个复制的值
+
+    - Object.is( ),ES6新增，与===很像，但考虑了边界情形
+
+    ```javascript
+    console.log(Object.is(true, 1)); // false
+    console.log(Object.is({}, {})); // false
+    console.log(Object.is("2", 2)); // false
+    
+    // 正确的 0、-0、+0 相等/不等判定
+    console.log(Object.is(+0, -0)); // false
+    console.log(Object.is(+0, 0)); // true
+    console.log(Object.is(-0, 0)); // false
+    // 这些情况在不同 JavaScript 引擎中表现不同，但仍被认为相等
+    console.log(+0 === -0); // true
+    console.log(+0 === 0); // true
+    console.log(-0 === 0); // true
+    
+    // 正确的 NaN 相等判定
+    console.log(Object.is(NaN, NaN)); // true
+    // 要确定 NaN 的相等性，必须使用极为讨厌的 isNaN()
+    console.log(NaN === NaN); // false
+    console.log(isNaN(NaN)); // true
+    ```
+
+  - 对象解构，es6新增：使用与对象匹配的结构来实现对象属性赋值  let { name: personName, age: personAge } = person;
+
+#### 创建对象
+
+- ES6 的类都仅仅是封装了 ES5.1 构造函数加原型继承的语法糖而已
+
+- 工厂模式
+
+  ```javascript
+  function createPerson(name) {
+   let o = new Object();
+   o.name = name;
+   o.sayName = function() {
+   	console.log(this.name);
+   };
+   return o;
+  }
+  let person1 = createPerson("Nicholas");
+  ```
+
+- 构造函数模式
+
+  ```javascript
+  function Person(name){
+   this.name = name;
+   this.sayName = function() {
+   	console.log(this.name);
+   };
+  }
+  let person1 = new Person("Nicholas");
+  person1.sayName(); // Nicholas
+  ```
+
+  缺点：其定义的方法会在每个实例上都创建一遍，没必要
+
+- 原型模式
+
+  每个函数都会创建一个 prototype 属性，这个属性是一个对象，包含应该由特定引用类型的实例 共享的属性和方法。使用原型对象的好处是，在它上面定义的属性和方法可以被对象实例共享。
+
+  ```javascript
+  function Person() {}
+  Person.prototype.name = "Nicholas";
+  Person.prototype.sayName = function() {
+   console.log(this.name);
+  };
+  let person1 = new Person();
+  person1.sayName(); // "Nicholas"
+  ```
+
+  - 原型
+    - prototype属性
+    - constructor属性：Person.prototype.constructor 指向 Person
+    - 在自定义构造函数时，原型对象默认只会获得 constructor 属性，其他的所有方法都继承自 Object。
+    - 每次调用构造函数创建一个新实例，这个实例的内部[[Prototype]]指针就会被赋值为构 造函数的原型对象。
+    - 脚本中没有访问这个[[Prototype]]特性的标准方式，但 Firefox、Safari 和 Chrome 会在每个对象上暴露\_\_proto\_\_属性，通过这个属性可以访问对象的原型。
+    - isPrototypeOf(): Person.prototype.isPrototypeOf(person2); // true
+  - 原型层级
+    - hasOwnProperty( ) 于确定某个属性是在**实例**上还是在原型对象上
+  - 原型和in操作符
+    - 单独使用时，只要可以在原型链上找到对应的字符，就返回true
+  - 属性枚举顺序
+    - for-in 循环、Object.keys()、Object.getOwnPropertyNames()、Object.getOwnPropertySymbols()以及 Object.assign()在属性枚举顺序方面有很大区别
+    - for-in 循环和 Object.keys() 的枚举顺序是不确定的，取决于 JavaScript 引擎，可能因浏览器而异。
+    - Object.getOwnPropertyNames()、Object.getOwnPropertySymbols()和 Object.assign() 的枚举顺序是确定性的。
+  - 对象迭代
+    - Object.values( ) 返回对象值数组
+    - Object.entries( ) 返回键值对数组
+
+- 继承
+
+  - 实现继承是 ECMAScript 唯一支持的继承方式，而这主要是通过原型链实现的。
+  - instanceof、 isPrototypeOf( )
+  - 盗用构造函数，解决原型包含引用值导致的继承问题
+  - 组合继承
+    - 使用原型链继承原型上的属性和方法
+    - 通过盗用函数继承实例属性
+
+- 类
+
+  - 类声明不能被提升
+  - 类受块作用域限制
+  - typeof 类 === 'function'
+  - ES6原生支持了类继承机制，背后使用的依旧是原型链
+  - 构造函数、HomeObject、super( )
+
+
+
