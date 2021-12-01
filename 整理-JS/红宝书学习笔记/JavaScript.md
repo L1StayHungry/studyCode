@@ -45,6 +45,8 @@
 
 - 模板字面量---使用`我是字符串`反引号定义字符串
 - symbol符号，ES6新增
+- Map、weakMap
+- Set、weakSet
 
 ### 二、HTML中的Js
 
@@ -105,7 +107,7 @@ use strict;
 
 - 关键字/保留字
 
-```
+```javascript
 关键字：不能作为标识符和属性名
 break     do        in            typeof
 case      else      instanceof    var
@@ -118,7 +120,7 @@ default   if        throw
 delete    import    try
 ```
 
-```
+```javascript
 保留字:不能作为标识符但可以作为属性名
 始终保留：
 enum
@@ -141,7 +143,7 @@ await
 
   - undefined。值未定义。
 
-  ```
+  ```javascript
   // undefined是由null派生出来的
   null == undefined  // true
   // ==操作符会为了比较二转换它的操作数
@@ -150,7 +152,7 @@ await
   - null。空对象指针。
   - number数值。双精度。
 
-  ```
+  ```javascript
   // 默认十进制
   
   // 八进制（严格模式下无效）
@@ -174,7 +176,7 @@ await
 
   - string字符串
 
-  ```
+  ```javascript
   字符串本身是不可变的，通常情况下的修改字符串的值本质上是新建另一个字符串
   
   //转换为字符串
@@ -205,7 +207,7 @@ await
 
   - symbol符号，ES6新增
 
-  ```
+  ```javascript
   //符号的用途是确保对象属性使用唯一标识符，不会发生属性冲突的危险。
   
   //Symbol()函数不能和new一起使用
@@ -221,7 +223,7 @@ await
     - valueOf() : 通常与toString返回值相同
     - 对象的属性是无序的，不能保证遍历时的顺序
 
-  ```
+  ```javascript
   let o = new Object()
   ```
 
@@ -260,7 +262,7 @@ await
   - 32位整数前31位表示数值，第32位表示符号，0为正，1为负
   - **按位非（~）**：取反，补数。**按位非的最终效果是对数值取反并减 1**
 
-  ```
+  ```javascript
   let num1 = 25; // 二进制 00000000000000000000000000011001
   let num2 = ~num1; // 二进制 11111111111111111111111111100110
   console.log(num2); // -26
@@ -307,7 +309,7 @@ await
 
     - **如果两个操作数都是对象，则比较它们是不是同一个对象。如果两个操作数都指向同一个对象， 则相等操作符返回 true。否则，两者不相等**。
 
-    - ```
+    - ```javascript
       null == undefined         true
       "NaN" == NaN              false
       5 == NaN                  false
@@ -354,13 +356,13 @@ await
 - 原始值-栈；引用值-堆
 - **确定类型**：instanceof
 
-```
+```javascript
 person instanceof Object; // 变量 person 是 Object 吗？
 colors instanceof Array; // 变量 colors 是 Array 吗？
 pattern instanceof RegExp; // 变量 pattern 是 RegExp 吗？
 ```
 
-#### 执行上下文与作用域
+#### 执行上下文与作用域javascript
 
 - 浏览器中，全局上下文就是常说的window对象。使用let和const的顶级声明不会定义在全局上下文中，但在作用域链解析上效果和var一样
 - 全局上下文在关闭浏览器或网页时才会被销毁
@@ -385,3 +387,349 @@ pattern instanceof RegExp; // 变量 pattern 是 RegExp 吗？
     - 闭包。引用的数据无法被清理
   - 静态分配和对象池
 
+### 五、基本引用类型
+
+引用类型是把数据和功能组织到一起的结构
+
+#### Date
+
+- new Date() 构造函数传参为空则取当前时间，传参为毫秒格式
+- Date.parse() 获取时间戳。如果new Date()传入的是时间字符串，会默认内部调用Date.parse()
+
+```
+支持下列日期格式：
+1、 “月/日/年”，如"5/23/2019"；
+2、 “月名 日, 年”，如"May 23, 2019"；
+3、 “周几 月名 日 年 时:分:秒 时区”，如"Tue May 23 2019 00:00:00 GMT-0700"；
+4、 YYYY-MM-DDTHH:mm:ss.sssZ
+```
+
+- Date.now() 当前时间戳
+- 重写了toLocaleString、toString、valueOf。
+  - toLocaleString() - 2/1/2019 12:00:00 AM
+  - toString() - Thu Feb 1 2019 00:00:00 GMT-0800 (Pacific Standard Time)
+
+```javascript
+******getTime()  返回日期的毫秒表示；与 valueOf()相同
+******setTime(milliseconds) 设置日期的毫秒表示，从而修改整个日期
+******getFullYear() 返回 4 位数年（即 2019 而不是 19）
+getUTCFullYear() 返回 UTC 日期的 4 位数年
+setFullYear(year) 设置日期的年（year 必须是 4 位数）
+setUTCFullYear(year) 设置 UTC 日期的年（year 必须是 4 位数）
+***getMonth() 返回日期的月（0 表示 1 月，11 表示 12 月）
+getUTCMonth() 返回 UTC 日期的月（0 表示 1 月，11 表示 12 月）
+setMonth(month) 设置日期的月（month 为大于 0 的数值，大于 11 加年）
+setUTCMonth(month) 设置 UTC 日期的月（month 为大于 0 的数值，大于 11 加年）
+******getDate() 返回日期中的日（1~31）
+getUTCDate() 返回 UTC 日期中的日（1~31）
+setDate(date) 设置日期中的日（如果 date 大于该月天数，则加月）
+setUTCDate(date) 设置 UTC 日期中的日（如果 date 大于该月天数，则加月）
+getDay() 返回日期中表示周几的数值（0 表示周日，6 表示周六）
+getUTCDay() 返回 UTC 日期中表示周几的数值（0 表示周日，6 表示周六）
+******getHours() 返回日期中的时（0~23）
+getUTCHours() 返回 UTC 日期中的时（0~23）
+setHours(hours) 设置日期中的时（如果 hours 大于 23，则加日）
+setUTCHours(hours) 设置 UTC 日期中的时（如果 hours 大于 23，则加日）
+******getMinutes() 返回日期中的分（0~59）
+getUTCMinutes() 返回 UTC 日期中的分（0~59）
+setMinutes(minutes) 设置日期中的分（如果 minutes 大于 59，则加时）
+setUTCMinutes(minutes) 设置 UTC 日期中的分（如果 minutes 大于 59，则加时）
+******getSeconds() 返回日期中的秒（0~59）
+getUTCSeconds() 返回 UTC 日期中的秒（0~59）
+setSeconds(seconds) 设置日期中的秒（如果 seconds 大于 59，则加分）
+setUTCSeconds(seconds) 设置 UTC 日期中的秒（如果 seconds 大于 59，则加分）
+******getMilliseconds() 返回日期中的毫秒
+getUTCMilliseconds() 返回 UTC 日期中的毫秒
+setMilliseconds(milliseconds) 设置日期中的毫秒
+setUTCMilliseconds(milliseconds) 设置 UTC 日期中的毫秒
+getTimezoneOffset() 返回以分钟计的 UTC 与本地时区的偏移量（如美国 EST 即“东部标准时间”返回 300，进入夏令时的地区可能有所差异）
+```
+
+#### RegExp 
+
+```javascript
+let expression = /pattern/flags;
+表示匹配模式的标记。
+ g：全局模式，表示查找字符串的全部内容，而不是找到第一个匹配的内容就结束。
+ i：不区分大小写，表示在查找匹配时忽略 pattern 和字符串的大小写。
+ m：多行模式，表示查找到一行文本末尾时会继续查找。
+ y：粘附模式，表示只查找从 lastIndex 开始及之后的字符串。
+ u：Unicode 模式，启用 Unicode 匹配。
+ s：dotAll 模式，表示元字符.匹配任何字符（包括\n 或\r）。
+```
+
+- exec( ): 返回匹配项的数组或null
+
+#### 原始值包装类型
+
+- Boolean、Number、String
+
+  - String
+    - substring()
+    - charAt()
+    - charCodeAt()
+    - indexOf()  没找到则返回-1
+    - laseIndexOf()
+    - startsWith()
+    - endsWith()
+    - includes(targetStr, ? index)
+    - trim()
+    - reqeat()
+    - toLocaleUpperCase()、.toUpperCase()
+    - toLocaleLowerCase()、toLowerCase()
+    - match()方法 == RegExp.exec()
+  - Number
+    - toFixed(2) 保留两位小数
+
+- ```
+  注意，使用 new 调用原始值包装类型的构造函数，与调用同名的转型函数并不一样。例如：
+  let value = "25";
+  let number = Number(value); // 转型函数
+  console.log(typeof number); // "number"
+  let obj = new Number(value); // 构造函数
+  console.log(typeof obj); // "object" 
+  ```
+
+#### 单例内置对象
+
+- Global对象: 事实上，不存在全局变量或全局函 数这种东西。在全局作用域中定义的变量和函数都会变成 Global 对象的属性 
+  - isNaN()
+  - isFinite()
+  - parseInt()
+  - parseFloat()
+  - encodeURI()
+  - eval()   这个方法就是一个完 整的 ECMAScript 解释器
+  - 对象属性：Global 对象有很多属性，其中一些前面已经提到过了。像 undefined、NaN 和 Infinity 等特殊 值都是 Global 对象的属性。此外，所有原生引用类型构造函数，比如 Object 和 Function，也都是 Global 对象的属性。
+  - window对象：Global对象的代理
+  
+- #### math
+
+  ```
+  Math 对象上提供的计算要比直接在 JavaScript 实现的快得多，因为 Math 对象上的计算使用了 JavaScript 引擎中更高效的实现和处理器指令。但使用 Math 计算的问题是精度会因浏览器、操作系统、指令集和硬件而异。
+  ```
+
+  - Math.max()和Math.min()
+  - 舍入方法
+    - Math.ceil( ) 向上取整
+    - Math.floor( ) 向下取整
+    - Math.round( ) 四舍五入
+    - Math.fround( ) 返回数值最接近的单精度（32位）浮点数表示
+  - Math.random( ) 随机数[0，1）
+  - 其它：
+
+  ```
+  Math.abs(x)           返回 x 的绝对值
+  Math.exp(x)           返回 Math.E 的 x 次幂
+  Math.expm1(x)         等于 Math.exp(x) - 1
+  Math.log(x)           返回 x 的自然对数
+  Math.log1p(x)         等于 1 + Math.log(x)
+  Math.pow(x, power)    返回 x 的 power 次幂
+  Math.hypot(...nums)   返回 nums 中每个数平方和的平方根
+  Math.clz32(x)         返回 32 位整数 x 的前置零的数量
+  Math.sign(x)          返回表示 x 符号的 1、0、-0 或-1
+  Math.trunc(x)         返回 x 的整数部分，删除所有小数
+  Math.sqrt(x)          返回 x 的平方根
+  Math.cbrt(x)          返回 x 的立方根
+  Math.acos(x)          返回 x 的反余弦
+  Math.acosh(x)         返回 x 的反双曲余弦
+  Math.asin(x)          返回 x 的反正弦
+  Math.asinh(x)         返回 x 的反双曲正弦
+  Math.atan(x)          返回 x 的反正切
+  Math.atanh(x)         返回 x 的反双曲正切
+  Math.atan2(y, x)      返回 y/x 的反正切
+  Math.cos(x)           返回 x 的余弦
+  Math.sin(x)           返回 x 的正弦
+  Math.tan(x)           返回 x 的正切
+  ```
+
+
+### 六、集合引用类型
+
+#### Object
+
+#### Array
+
+- Array.from( ) :将类数组结构转换为数组示例
+
+  - 将字符串拆分为单字符数组
+  - 将集合（Map）和映射（Set）转换为一个数组
+  - 对现有数组进行浅复制
+  - arguments对象转数组
+
+- Array.of( ) :将一组参数转换为数组实例
+
+- 判断数组类型：
+
+  - arr **instanceof** Array 在只有一个网页的时候适用（只有一个全局上下文
+  - **Array.isArray( )** 
+
+- 迭代器方法
+
+  - keys()
+  - values()
+  - aEntries()
+
+- 转换方法
+
+  - toString()
+  - valueOf()
+  - join()
+
+- 栈方法
+
+  - push()
+  - pop()
+
+- 队列方法
+
+  - unshift()
+  - shift()
+
+- 排序方法
+
+  - reverse()
+  - sort(?fun())  fun()返回正值则第一个参数在第二个参数后
+
+- 操作方法
+
+  - concat() : arr1.concat(arr2) 返回新数组；
+
+    ```
+    
+    ```
+
+  - slice(startIndex, ?endIndex): 返回索引内元素，不影响原数组
+
+  - splice(要删除的第一个元素Index, 删除的元素数量，?要插入的元素...),影响原数组
+
+  ```javascript
+  let arr = ['a','b','c']
+  const result = arr.splice(1, 0, 'bbb') // result []
+  // arr ['a', 'bbb', 'b', 'c']
+  ```
+
+- 搜索和位置方法
+
+  - indexOf() 没有返回-1
+  - lastIndexOf()  没有返回-1
+  - includes() 返回布尔值
+  - find() 返回第一个匹配的元素
+  - findIndex()
+
+- 迭代方法, 都不改变原数组
+
+  - every() 返回布尔值
+  - filter()
+  - forEach()
+  - map()
+  - some() 返回布尔值
+
+- 归并方法
+
+  - reduce()
+  - reduceRight()
+
+#### 定型数组
+
+定型数组（typed array）是 ECMAScript 新增的结构，目的是提升向原生库传输数据的效率。实际上，
+JavaScript 并没有“TypedArray”类型，它所指的其实是一种特殊的包含数值类型的数组。
+
+- ArrayBuffer是一个普通的 JavaScript 构造函数，可用于在内存中分配特定数量的字节空间。
+- DataView
+  - ElementType
+  - 字节序
+  - 边界情形
+  - 定型数组，是另一种形式的 ArrayBuffer 视图。
+
+#### Map
+
+ES6新增。真正的键/值存储机制
+
+- 基本API
+
+  - 创建 new Map()
+
+  ```javascript
+  /**如果想在创建的同时初始化实例，可以给 Map 构造函数传入一个可迭代对象，需要包含键/值对数
+  组。可迭代对象中的每个键/值对都会按照迭代顺序插入到新映射实例中：**/
+  // 使用嵌套数组初始化映射
+  const m1 = new Map([
+   ["key1", "val1"],
+   ["key2", "val2"],
+   ["key3", "val3"]
+  ]);
+  alert(m1.size); // 3
+  
+  for (let pair of m.entries()) {
+   alert(pair);
+  }
+  // [key1,val1]
+  // [key2,val2]
+  // [key3,val3]
+  ```
+
+  - size() 大小
+  - get(key)
+  - set(key, val) 新增键值对
+  - delete(key)
+  - clear()
+  - has(key)
+  - entries() 转数组
+  - forEach((val, key) => {})
+  - 与object不同，Map实例会维护键值对的插入顺序--迭代顺序保证
+
+#### WeakMap
+
+ES6新增
+
+- 弱映射的键只能是object或其继承类型
+- 只要建存在，键/值对就会存在于映射中，并被当作对值的引用，因此就不会被当作垃圾回收。
+- 不可迭代建
+- 一些用途
+  - 私有变量
+
+#### Set
+
+ES6新增
+
+- 基本API
+  - 创建 new Set()
+  - add()
+  - has()
+  - size() 大小
+  - delete
+
+#### WeakSet
+
+#### 迭代与扩展操作
+
+### 七、迭代器与生成器
+
+#### 迭代器模式
+
+- 迭代器协议
+  - next()
+  - done属性和value属性
+
+ - 提前终止迭代器
+  - for-of循环通过 break、continue、return 或 throw 提前退出；
+
+#### 生成器
+
+  - 生成器基础：生成器的形式是一个函数，函数名称前面加一个星号（*）表示它是一个生成器。只要是可以定义
+    函数的地方，就可以定义生成器。
+  - next()
+  - yeild
+  - return
+  - throw
+
+  ```javascript
+  // 生成器函数声明
+  function* generatorFn() {}
+  // 生成器函数表达式
+  let generatorFn = function* () {}
+  ```
+
+### 八、对象、类与面向对象编程
+
+#### 理解对象
