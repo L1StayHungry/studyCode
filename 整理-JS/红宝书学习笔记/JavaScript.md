@@ -50,6 +50,8 @@
 - Object.is( )   (和===类似，但更完善)
 - 对象解构
 - 代理与反射
+- 箭头函数
+- 函数实现默认参数值
 
 ### 二、HTML中的Js
 
@@ -990,3 +992,92 @@ const proxy = new Proxy(target, handler);
 - 属性验证
 - 函数与构造函数参数验证
 - 数据绑定与可观察对象
+
+### 十、函数
+
+#### 箭头函数
+
+- 不能使用arguments、super和new.target,
+
+- 也不能用作构造函数，
+
+- 没有prototype属性
+
+#### 函数名
+
+- 函数名就是指向函数的指针
+
+- ```javascript
+  function foo() {}
+  let bar = function() {};
+  let baz = () => {};
+  console.log(foo.name); // foo
+  console.log(bar.name); // bar
+  console.log(baz.name); // baz
+  console.log((() => {}).name); //（空字符串）
+  console.log((new Function()).name); // anonymous 
+  ```
+
+#### 理解函数
+
+参数在内部表现为一个数组
+
+没有重载
+
+#### 默认参数值
+
+​	function func(aaa = 'defaultValue')
+
+​    暂时性死区
+
+#### 参数扩展与收集
+
+扩展操作符传参
+
+#### 函数声明与函数表达式
+
+函数声明提升
+
+函数表达式方式不会被提升
+
+#### 函数内部
+
+- arguments。类数组对象
+- this
+  - 标准函数中，this引用的是**把函数当成方法调用的上下文对象**----->必须要到函数被调用时才能确定
+  - 箭头函数中，this引用的是**定义箭头函数的上下文**
+- new.target ,ES6新增
+  - 如果函数是正常调用的，new.target = undefined
+  - 如果是new关键字，则new.target将引用被调用的构造函数
+- caller: 引用的是调用当前函数的函数，如果是全局作用域中则为null
+
+#### 函数属性与方法
+
+- length
+- prototype
+  - 是保存引用类型所有实例方法的地方,这意味着toString()、valueOf()等方法实际上都保存在 prototype 上
+- apply(函数内this的值，参数数组)
+- call(函数内this的值，参数，参数...)
+- bind(被绑定的对象)
+
+#### 函数表达式
+
+- 函数表达式创建的也叫匿名函数
+
+#### 递归
+
+- arguments.callee ：一个指向正在执行的函数的指针
+
+- 尾调用优化
+
+#### 闭包
+
+- 指的是引用了另一个函数作用域中变量的函数
+- this和arguments都是不能在内部函数中访问的
+- 内存泄漏
+
+#### 立即调用的函数表达式
+
+（function() { //块级作用域 }）()
+
+#### 私有变量
