@@ -1450,11 +1450,90 @@ document节点表示每个文档的根节点
 
 #### Selectors API
 
+是 W3C 推荐标准，规定了浏览器原生支 持的 CSS 查询 API
+
+- querySelector()
+
+  - 接收 CSS 选择符参数，返回匹配该模式的第一个后代元素，如果没有匹配 项则返回 null。
+
+  - ```javascript
+    // 取得<body>元素
+    let body = document.querySelector("body");
+    // 取得 ID 为"myDiv"的元素
+    let myDiv = document.querySelector("#myDiv");
+    // 取得类名为"selected"的第一个元素
+    let selected = document.querySelector(".selected");
+    ```
+
+- querySelectorAll()
+
+- matches()
+
+- find()
+
+- findAll()
+
 #### 元素遍历
 
 #### HTML5
 
+在所有以前的 HTML 规范中，从未出现过描述 JavaScript 接口的情形，但HTML5 规范包含了与标记相关的大量 JavaScript API 定义
+
+- CSS类扩展
+  - getElementsByClassName()
+  - classList
+    - add(value)，向类名列表中添加指定的字符串值 value。如果这个值已经存在，则什么也不做。 
+    - contains(value)，返回布尔值，表示给定的 value 是否存在。 
+    - remove(value)，从类名列表中删除指定的字符串值 value。 
+    - toggle(value)，如果类名列表中已经存在指定的 value，则删除；如果不存在，则添加。
+- 焦点管理
+  - document.activeElement
+  - document.hasFocus
+- HTMLDocument扩展
+  - readyState
+    - loading 文档正在加载
+    - complete 加载完成
+  - compatMode属性
+    - 指示浏览器当前处于什么渲染模式（标准、混杂）
+  - head属性
+- 字符集属性 
+  - characterSet 属性表示文档实际使用的 字符集，也可以用来指定新字符集。这个属性的默认值是"UTF-16"，但可以通过元素或响应头， 以及新增的 characterSeet 属性来修改
+  - document.characterSet = "UTF-8";
+- 自定义数据属性
+  - data-     开头，设置
+  - 通过dataset访问
+- 插入标记
+  - innerHTML
+  - outerHTML 包含自身元素
+  - insertAdjacentHTML(要插入的位置，HTML/文本)，insertAdjacentText()
+    - "beforebegin"，插入当前元素前面，作为前一个同胞节点； 
+    - "afterbegin"，插入当前元素内部，作为新的子节点或放在第一个子节点前面； 
+    - "beforeend"，插入当前元素内部，作为新的子节点或放在最后一个子节点后面； 
+    - "afterend"，插入当前元素后面，作为下一个同胞节点。
+- 内存和性能问题
+  - 可能在浏览器（特别是 IE）中导致内存问题
+  - 比如，如果被移除的 子树元素中之前有关联的事件处理程序或其他 JavaScript 对象（作为元素的属性），那它们之间的绑定关 系会滞留在内存中。如果这种替换操作频繁发生，页面的内存占用就会持续攀升。
+  - 在使用 innerHTML、 outerHTML 和 insertAdjacentHTML()之前，最好手动删除要被替换的元素上关联的事件处理程序和 JavaScript 对象。
+- 跨站点脚本
+- scrollIntoView()  存在于所有 HTML 元素上
+  - alignToTop 是一个布尔值。 
+    - true：窗口滚动后元素的顶部与视口顶部对齐。 
+    - false：窗口滚动后元素的底部与视口底部对齐。 
+  - scrollIntoViewOptions 是一个选项对象。 
+    - behavior：定义过渡动画，可取的值为"smooth"和"auto"，默认为"auto"。 
+    - block：定义垂直方向的对齐，可取的值为"start"、"center"、"end"和"nearest"，默认为 "start"。 
+    - inline：定义水平方向的对齐，可取的值为"start"、"center"、"end"和"nearest"，默认为 "nearest"。 
+  - 不传参数等同于 alignToTop 为 true。
+
 #### 专有扩展
+
+- children属性
+- contains方法
+- 插入标记
+  - innerText
+  - outerText
+- 滚动
+  - scrollIntoViewIfNeeded()
 
 ### 十六、DOM2和DOM3
 
