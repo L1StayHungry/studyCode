@@ -1786,9 +1786,52 @@ if (drawing.getContext) {
 
 #### 表单基础
 
+- 提交表单
+
+  - ```javascript
+    <!-- 通用提交按钮 -->
+    <input type="submit" value="Submit Form">
+    <!-- 自定义提交按钮 -->
+    <button type="submit">Submit Form</button>
+    <!-- 图片按钮 -->
+    <input type="image" src="graphic.gif">
+        
+    如果表单中有上述任何一个按钮，且焦点在表单中某个控件上，则按回车键也可以提交表单。
+    （textarea 控件是个例外，当焦点在它上面时，按回车键会换行。）
+    ```
+
+  - form.submit()
+
+- 重置表单
+
+  - type="reset"
+  - form.reset()
+
 #### 文本框编程
 
+- input
+
+- textarea
+
+- 选择文本 select( )
+
+- 输入过滤
+
+  - ```javascript
+    // 只允许输入数字
+    textbox.addEventListener("keypress", (event) => {
+     if(!/\d/.test(String.fromCharCode(event.charCode))){
+     	event.preventDefault();
+     }
+    });
+    ```
+
+- 自动切换
+
 #### 选择框编程
+
+- select
+- option
 
 #### 表单序列化
 
