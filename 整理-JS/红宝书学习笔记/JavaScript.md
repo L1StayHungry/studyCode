@@ -1841,24 +1841,106 @@ if (drawing.getContext) {
 
 #### Atomics与SharedArrayBuffer
 
+多个上下文访问 SharedArrayBuffer 时，如果同时对缓冲区执行操作，就可能出现资源争用问 题。Atomics API 通过强制同一时刻只能对缓冲区执行一个操作，可以让多个上下文安全地读写一个 SharedArrayBuffer。Atomics API 是 ES2017 中定义的。
+
+- SharedArrayBuffer
+  - 可以被任意多个执行上下文同时使用,意味着并发线程操作成为了可能
+- 原子操作基础
+
 #### 跨上下文消息
+
+跨文档消息，有时候也简称为 XDM（cross-document messaging），是一种在不同执行上下文（如不 同工作线程或不同源的页面）间传递信息的能力
+
+- postMessage(消息，表示目标接收源的字符串，可选的可传输对象的数组)
 
 #### Encoding API
 
+- 文本编码
+  - 批量编码
+  - 流编码
+- 文本解码
+
 #### File API与Blob API
+
+- FIle类型
+
+- FileReader类型
+
+  - 异步文件读取机制
+  - readAsText(file, encoding)：从文件中读取纯文本内容并保存在 result 属性中。第二个 参数表示编码，是可选的
+  - readAsDataURL(file)：读取文件并将内容的数据 URI 保存在 result 属性中
+  - readAsBinaryString(file)：读取文件并将每个字符的二进制数据保存在 result 属性中
+  - readAsArrayBuffer(file)：读取文件并将文件内容以 ArrayBuffer 形式保存在 result 属性
+
+- FileReaderSync，FileReader 的同步版本
+
+- Blob 与部分读取
+
+  - Blob 实际上是 File 的超类
+  - blob 表示二进制大对象（binary larget object），是 JavaScript 对不可修改二进制数据的封装类型
+  - 可以使用 FileReader 从 Blob 中读取数据
+
+  ```javascript
+  let filesList = document.getElementById("files-list");
+  filesList.addEventListener("change", (event) => {
+   let info = "",
+   output = document.getElementById("output"),
+   progress = document.getElementById("progress"),
+   files = event.target.files,
+   reader = new FileReader(),
+   blob = blobSlice(files[0], 0, 32);
+   if (blob) {
+   reader.readAsText(blob);
+   reader.onerror = function() {
+   output.innerHTML = "Could not read file, error code is " +
+   reader.error.code;
+   };
+   reader.onload = function() {
+   output.innerHTML = reader.result;
+   };
+   } else {
+   console.log("Your browser doesn't support slice().");
+   }
+  }); 
+  ```
+
+- 对象URL与Blob
+
+- 读取拖放文件
 
 #### 媒体元素
 
+- video
+- audio
+
 #### 原生拖放
+
+- dragstart
+- drag
+- dragend
 
 #### Notifications API
 
+用于向用户显示通知
+
 #### Page Visibility API
+
+为 开发者提供页面对用户是否可见的信息
 
 #### Streams API
 
+实现 Observable 接口的 JavaScript 库共享了很多流的基础概念
+
+- 可读流
+- 可写流
+- 转换流
+
 #### 计时API
+
+Performance 接口通过 JavaScript API 暴露了浏览器内部 的度量指标，允许开发者直接访问这些信息并基于这些信息实现自己想要的功能
 
 #### Web组件
 
 #### Web Cryptography API
+
+描述了一套密码学工具，规范了 JavaScript 如何以安全和符合惯例的方式实现 加密
