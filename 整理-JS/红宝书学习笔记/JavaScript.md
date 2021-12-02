@@ -1263,3 +1263,267 @@ history.forward();
 #### 软件与硬件检测
 
 现代浏览器提供了一组与页面执行环境相关的信息，包括浏览器、操作系统、硬件和周边设备信息。 这些属性可以通过暴露在 window.navigator 上的一组 API 获得。
+
+### 十四、DOM
+
+文档对象模型，是HTML和XML文档的编程接口
+
+与浏览器中的HTML网页有关，并在Js中提供了DOM API
+
+#### 节点层级
+
+document节点表示每个文档的根节点
+
+\<html\>-----在 HTML 页面中，文档元素始终是\<html\>元素。
+
+- Node类型
+
+  - 所有节点类型都继承 Node 类型
+
+  - nodeName 与 nodeValue 保存着有关节点的信息。对元素 而言，nodeName 始终等于元素的标签名，而 nodeValue 则始终为 null。
+
+  - 节点关系
+
+    - 每个节点都有一个 **childNodes** 属性，其中包含一个 NodeList 的实例
+
+    ```javascript
+    let firstChild = someNode.childNodes[0];
+    let secondChild = someNode.childNodes.item(1);
+    let count = someNode.childNodes.length;
+    ```
+
+    - 每个节点都有一个 **parentNode** 属性，指向其 DOM 树中的父元素
+    - **firstChild**      **lastChild**
+    - **hasChildNodes**() 查询是否有子节点
+
+  - 操纵节点
+
+    - **appendChild()** 用于在childNodes列表末尾添加节点，返回新添加的节点。*如果把文档中已经存在的节点传给 appendChild()，则这个节点会从之前的位置被转移到新位置。*
+    - **insertBefore(要插入的节点，参照节点)**
+    - **replaceChild(要插入的节点，要替换的节点)**
+    - **removeChild(要移除的节点)**
+    - **cloneNode(要复制的节点，是否深克隆)**
+    - normallize()
+
+- document类型
+
+  - 在浏览器中，文档对象 document 是 HTMLDocument 的实例（HTMLDocument 继承 Document），表示整个 HTML 页面。**document 是 window 对象的属性**，因此是一个全局对象。
+
+  - 文档子节点
+
+    - DocumentType、Element、Processing-Indtruction、Comment
+    - documentElement: 始终指向\<html\>元素
+    - body: 直接指向\<body\>元素
+    - DocumentType
+
+  - 文档信息
+
+    - title
+    - URL
+    - domain 取得域名。可利用实现frame通信
+    - referrer 取得来源
+
+  - 定位元素
+
+    - getElementById(),如果id相同，返回第一个
+    - getElementsByTagName，返回NodeList
+    - getElementsByName，返回NodeList
+
+  - 特殊集合
+
+    - document.anchors 包含文档中所有带 name 属性的元素。 
+    - document.applets 包含文档中所有元素（因为元素已经不建议使用，所 以这个集合已经废弃）。
+    -  document.forms 包含文档中所有元素（与 document.getElementsByTagName ("form") 返回的结果相同）。
+    -  document.images 包含文档中所有\<img\>元素（与 document.getElementsByTagName ("img") 返回的结果相同）。 
+    - document.links 包含文档中所有带 href 属性的元素。
+
+  - DOM兼容性检测
+
+  - 文档写入
+
+    - write(str)
+
+    ```javascript
+    document.write("<strong>" + (new Date()).toString() + "</strong>");
+    ```
+
+    - writeIn(str)还会在字符串末尾追加一个换行符 （\n）
+    - open()
+    - close()
+
+- Element类型：Element 表示XML或HTML 元素，对外暴露出访问元素标签名、子节点和属性的能力
+
+  - HTML元素
+  - 取得属性\设置属性
+    - getAttribute("id")
+    - setAttribute("class","mycassName")
+    - removeAttribute()
+  - 创建元素
+    - **document.createElement("tagName")**
+  - 元素后代
+
+- Text类型
+
+  - \<li\>间的空格
+
+- Comment类型
+
+  - 注释
+
+- CDATASection类型
+
+- DocumentType类型
+
+- DocumentFragment 类型
+
+- Attr 类型。属性节点尽管是节点，却不被认为是 DOM 文档树的一部分。
+
+#### DOM编程
+
+- 动态脚本\<script\>
+
+- 动态样式
+
+  - \<link\>元素用于包含CSS外部文件，而\<style\>元素用于添加嵌入样式
+
+  ```javascript
+  let link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.type = "text/css";
+  link.href = "styles.css";
+  let head = document.getElementsByTagName("head")[0];
+  head.appendChild(link); 
+  
+  let style = document.createElement("style");
+  style.type = "text/css";
+  style.appendChild(document.createTextNode("body{background-color:red}"));
+  let head = document.getElementsByTagName("head")[0];
+  head.appendChild(style); 
+  ```
+
+- 操作表格
+
+#### MutationObserver接口
+
+- 可以在DOM被修改时异步执行回调
+
+  - observe(DOM 节点， MutationObserverInit 对象)，，，**观察者**
+
+  ```
+  let observer = new MutationObserver(() => console.log('<body> attributes changed'));
+  observer.observe(document.body, { attributes: true });
+  //观察属性： attributes: true
+  //观察字符数据   characterData: true
+  //观察子节点 childList: true
+  //观察子树  subtree: true
+  
+  document.body.className = 'foo';
+  console.log('Changed body class');
+  // Changed body class
+  // <body> attributes changed
+  注意，回调中的 console.log()是后执行的。这表明回调并非与实际的 DOM 变化同步执行
+  ```
+
+- MutationRecord
+
+- disconnect() 终止执行回调
+
+- 复用MutationObserver
+
+- 重用MutationObserver，被disconnect之后
+
+- MutationObserverInit与观察范围
+
+- 异步回调与记录队列
+
+  - 每次变化的信息保存在MutationRecord实例中，然后添加到记录队列
+  - 每个队列对每个MutationObserver实例是唯一的
+
+- 性能、内存与垃圾回收
+
+  - 将变化回调委托给微任务来执行可以保证事件同步触发，同时避免随之而来的混乱
+  - MutationObserver 实例与目标节点之间的引用关系是非对称的。MutationObserver 拥有对要 观察的目标节点的弱引用。然而，目标节点却拥有对 MutationObserver 的强引用。
+
+- MutationObserver 是为代替性能不好的 MutationEvent 而问世的。使用它可以有效精准地监控 DOM 变化，而且 API 也相对简单。
+
+### 十五、DOM扩展
+
+#### Selectors API
+
+#### 元素遍历
+
+#### HTML5
+
+#### 专有扩展
+
+### 十六、DOM2和DOM3
+
+#### DOM的演进
+
+#### 样式
+
+#### 遍历
+
+#### 范围
+
+### 十七、事件
+
+#### 事件流
+
+#### 事件处理程序
+
+#### 事件对象
+
+#### 事件类型
+
+#### 内存和性能
+
+#### 模拟事件
+
+### 十八、动画与Canvas图形
+
+#### 使用requestAnimationFrame
+
+#### 基本的画布功能
+
+#### 2D绘图上下文
+
+#### WebGL
+
+### 十九、表单脚本
+
+#### 表单基础
+
+#### 文本框编程
+
+#### 选择框编程
+
+#### 表单序列化
+
+#### 富文本编辑
+
+### 二十、JavaScript API
+
+#### Atomics与SharedArrayBuffer
+
+#### 跨上下文消息
+
+#### Encoding API
+
+#### File API与Blob API
+
+#### 媒体元素
+
+#### 原生拖放
+
+#### Notifications API
+
+#### Page Visibility API
+
+#### Streams API
+
+#### 计时API
+
+#### Web组件
+
+#### Web Cryptography API
