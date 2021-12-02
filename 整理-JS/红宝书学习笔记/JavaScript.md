@@ -1576,13 +1576,67 @@ document节点表示每个文档的根节点
 
 #### 事件流
 
+- 事件冒泡（IE）：从最具体元素开始向上传播
+- 事件捕获：从顶层到具体
+- DOM事件流
+  - 事件捕获
+  - 到达目标
+  - 事件冒泡
+
 #### 事件处理程序
+
+- HTML事件处理程序
+  - onclick
+- DOM0事件处理程序
+- DOM2事件处理程序
+  - 为事件处理程序的赋值和移除定义了两个方法：addEventListener()和 removeEventListener()
+  - 它们接收 3 个参数：事件名、事件处理函 数和一个布尔值，true 表示在捕获阶段调用事件处理程序，false（默认值）表示在冒泡阶段调用事 件处理程序。
+- IE事件处理程序
+  - 在冒泡阶段添加事件处理
+- 跨浏览器事件处理程序
 
 #### 事件对象
 
+- DOM事件对象
+- IE事件对象
+
 #### 事件类型
 
+- 用户界面事件（UIEvent）：涉及与 BOM 交互的通用浏览器事件。 
+  - load事件：会在整个页面（包括 所有外部资源如图片、JavaScript 文件和 CSS 文件）加载完成后触发。
+    - 监听
+    - 元素添加onload属性
+  - unload事件
+  - resize事件
+  - scroll事件
+- 焦点事件（FocusEvent）：在元素获得和失去焦点时触发。
+  -  blur：当元素**失去焦点**时触发。这个事件不冒泡，所有浏览器都支持。
+  - DOMFocusIn：当元素获得焦点时触发。这个事件是 focus 的冒泡版。Opera 是唯一支持这个事 件的主流浏览器。DOM3 Events 废弃了 DOMFocusIn，推荐 focusin。
+  - DOMFocusOut：当元素失去焦点时触发。这个事件是 blur 的通用版。Opera 是唯一支持这个事 件的主流浏览器。DOM3 Events 废弃了 DOMFocusOut，推荐 focusout。
+  - focus：当元素**获得焦点**时触发。这个事件不冒泡，所有浏览器都支持。
+  - focusin：当元素获得焦点时触发。这个事件是 focus 的冒泡版。
+  - focusout：当元素失去焦点时触发。这个事件是 blur 的通用版。
+- 鼠标事件（MouseEvent）：使用鼠标在页面上执行某些操作时触发。
+  - click
+  - dblclick
+  - mousedown
+  - mouseenter
+  - mouselease
+  - mousemove
+  - mouseout
+  - mouseover
+  - mouseup
+- 滚轮事件（WheelEvent）：使用鼠标滚轮（或类似设备）时触发。
+- 输入事件（InputEvent）：向文档中输入文本时触发。
+- 键盘事件（KeyboardEvent）：使用键盘在页面上执行某些操作时触发。 
+  - keypress
+- 合成事件（CompositionEvent）：在使用某种 IME（Input Method Editor，输入法编辑器）输入 字符时触发。
+
 #### 内存和性能
+
+- 事件委托
+  - 将事件冒泡委托至上级元素
+- 删除事件处理程序
 
 #### 模拟事件
 
@@ -1590,11 +1644,143 @@ document节点表示每个文档的根节点
 
 #### 使用requestAnimationFrame
 
+- 早期定时动画通过setInterval控制
+- 时间间隔的问题
+- requestAnimationFrame()只会调用一次传入的函数，所以每次更新用户界面时需要再手 动调用它一次
+- cancelAnimationFrame
+
 #### 基本的画布功能
+
+- 创建元素时至少要设置其 width 和 height 属性
+
+```javascript
+<canvas id="drawing" width="200" height="200">A drawing of something.</canvas>
+```
+
+-  getContext() : 以获取对绘图上下文的 引用
+- toDataURL() : 导出元素上的图像
+
+```javascript
+let drawing = document.getElementById("drawing");
+// 确保浏览器支持<canvas>
+if (drawing.getContext) {
+ // 取得图像的数据 URI
+ let imgURI = drawing.toDataURL("image/png");
+ // 显示图片
+ let image = document.createElement("img");
+ image.src = imgURI;
+ document.body.appendChild(image);
+} 
+```
 
 #### 2D绘图上下文
 
+- 填充和描边fillStyle 和 strokeStyle
+
+  - 填充以指定样式（颜色、渐变或图像）自动填充形 状
+  - 描边只为图形边界着色
+
+- 绘制矩形
+
+  - fillRect(x ，y， 矩形宽度，矩形高度)  实心
+  - strokeRect(x ，y， 矩形宽度，矩形高度)  空心
+  - clearRect(x ，y， 矩形宽度，矩形高度)  擦除矩形
+
+- 绘制路径
+
+  - beginPath()
+    - arc(x, y, radius半径, startAngle起始角度, endAngle结束角度, counterclockwise是否逆时针)
+    - arcTo(x1, y1, x2, y2, radius)
+    - bezierCurveTo(c1x, c1y, c2x, c2y, x, y)
+    - lineTo(x,y)
+    - moveTo(x,y)
+    - quadraticCurveTo(cx, cy, x, y)
+    - rect(x, y, width, height)
+
+- 绘制文本
+
+  - fillText()
+
+  - strokeText
+
+    - font
+
+    - textAlign
+
+    - textBaseLine
+
+    - ```javascript
+      context.font = "bold 14px Arial";
+      context.textAlign = "center";
+      context.textBaseline = "middle";
+      context.fillText("12", 100, 20);
+      ```
+
+- 变换
+
+  - rotate(angle)：围绕原点把图像旋转 angle 弧度
+
+  - scale(scaleX, scaleY)：通过在 x 轴乘以 scaleX、在 y 轴乘以 scaleY 来缩放图像。scaleX 和 scaleY 的默认值都是 1.0
+
+  - translate(x, y)：把原点移动到(x, y)。执行这个操作后，坐标(0, 0)就会变成(x, y)
+
+  - transform(m1_1, m1_2, m2_1, m2_2, dx, dy)：像下面这样通过矩阵乘法直接修改矩阵
+
+    ```javascript
+    m1_1 m1_2 dx
+    m2_1 m2_2 dy
+    0    0    1
+    ```
+
+  - setTransform(m1_1, m1_2, m2_1, m2_2, dx, dy)：把矩阵重置为默认值，再以传入的 参数调用 transform()
+
+- 绘制图像
+
+  - drawImage(image/canvas, x, y, width, height, 目标区域 x 坐标、目标区域 y 坐标、 目标区域宽度和目标区域高度)
+  - **如果绘制的图像来自其他域而非当前页面，则不能获取 其数据**
+
+- 阴影
+
+  - shadowColor：CSS 颜色值，表示要绘制的阴影颜色，默认为黑色。 
+  - shadowOffsetX：阴影相对于形状或路径的 x 坐标的偏移量，默认为 0。 
+  - shadowOffsetY：阴影相对于形状或路径的 y 坐标的偏移量，默认为 0。
+  - shadowBlur：像素，表示阴影的模糊量。默认值为 0，表示不模糊。
+
+- 渐变
+
+  - 渐变通过 CanvasGradient 的实例表示
+  - 要创建一个新的 线性渐变，可以调用上下文的 createLinearGradient()方法：起点 x 坐标、 起点 y 坐标、终点 x 坐标和终点 y 坐标
+  - 使用 addColorStop()方法为渐变指定色标
+
+  ```javascript
+  let gradient = context.createLinearGradient(30, 30, 70, 70);
+  gradient.addColorStop(0, "white");
+  gradient.addColorStop(1, "black");
+  ```
+
+- 图案
+
+  - 用 createPattern(image/video/canvas, 该如何重复图像)
+    - repeat
+    - repeat-x
+    - repeat-y
+    - no-repeat
+
+- 图像数据
+
+  - getImageData()方法获取原始图像数据
+    - 4 个参数：
+    - 要取得数据中第一个像素的左上角坐标
+    - 要取得的像素宽度及高度
+
+- 合成
+
+  - globalAlpha 绘制内容的透明度
+  - globalCompositionOperation 新绘制的形状如何与上下文中已有的形状融合
+
 #### WebGL
+
+3D上下文
 
 ### 十九、表单脚本
 
