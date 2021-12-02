@@ -1537,9 +1537,36 @@ document节点表示每个文档的根节点
 
 ### 十六、DOM2和DOM3
 
+在DOM结构上加入更多交互能力
+
+- DOM Core：在 DOM1 核心部分的基础上，为节点增加方法和属性。
+- DOM Views：定义基于样式信息的不同视图。
+- DOM Events：定义通过事件实现 DOM 文档交互。
+- DOM Style：定义以编程方式访问和修改 CSS 样式的接口。
+- DOM Traversal and Range：新增遍历 DOM 文档及选择文档内容的接口。
+- DOM HTML：在 DOM1 HTML 部分的基础上，增加属性、方法和新接口。
+- DOM Mutation Observers：定义基于 DOM 变化触发回调的接口。这个模块是 DOM4 级模块， 用于取代 Mutation Events。
+
 #### DOM的演进
 
 #### 样式
+
+- 元素尺寸
+  - **偏移尺寸**：包含元素在屏幕上占用的所有视觉空间。元素在页 面上的视觉空间由其高度和宽度决定，包括所有内边距、滚动条和边框（但**不包含外边距**）。
+    - offsetHeight
+    - offsetLeft, 元素左边框外侧距离包含元素左边框内侧的像素数,相对于包含元素
+    - offsetTop
+    - offsetWidth
+  - **客户端尺寸**：包含元素内容及其内边距所占用的空间，**不包含边框和外边距**, 不包含滚动条
+    - clientHeight
+    - clientWidth
+    - 常用于确定 浏览器视口尺寸
+  - **滚动尺寸**
+    - scrollHeight 元素内容的总高度
+    - scrollLeft 左侧隐藏的像素数
+    - scrollTop 顶部隐藏的像素数
+    - scrollWidth  元素内容的总宽度
+  - 确定元素尺寸getBoundingClientRect()
 
 #### 遍历
 
