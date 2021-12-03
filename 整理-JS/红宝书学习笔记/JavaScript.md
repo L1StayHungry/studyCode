@@ -2261,8 +2261,89 @@ XMLHttpRequest 可以选择异步，而 Fetch API 则必须是异步
 
 ### 二十五、客户端存储
 
+#### cookie
+
+- 限制
+  - 绑定域
+  - 不超过300个cookie（非必须）
+  - 每个cookie不超过4096字节
+  - 每个域不超过20个cookie
+  - 每个域不超过81920字节
+- 构成。这些参数在 Set-Cookie 头部中使用分号加空格隔开
+  - 名称
+  - 值
+  - 域
+  - 路径
+  - 过期时间
+  - 安全标志
+- JavaScript 中的 cookie
+  - 接口过于简单，只有 BOM 的 document.cookie 属性
+- 子cookie
+- 注意事项
+  - HTTP-only 的 cookie，可以在浏览器设置，也可以在服务器设置，只能在服务器上读取
+  - 对 cookie 的限制及其特性决定了 cookie 并不是存储大量数据的理想方式
+
+#### Web Storage
+
+- Storage 类型
+
+  - clear()
+  - getItem(name)
+  - key(index)
+  - removeItem(name)
+  - setItem(name, value)
+
+- sessionStorage
+
+  - 着数据只会存储到浏览器关闭
+  - 在运行本地文件时不能使用。
+  - 据只能由最初存储数据的页面使用，在多页应用程序中的用处有限
+
+- localStorage
+
+  - 在客户端持久存储 数据的机制
+  - 要访问同一个 localStorage 对象，页面必须来自**同一个域**（子域不可以）、在**相同的端口**上使用相同的协议
+  - 据会保留到通过 JavaScript 删除或者用户 清除浏览器缓存
+
+- 存储事件
+
+  - ```javascript
+    // 可以使用如下代码监听 storage 事件：
+    window.addEventListener("storage",
+     (event) => alert('Storage changed for ${event.domain}'));
+    ```
+
+- 限制
+
+  - 不同浏览器给 localStorage 和 sessionStorage 设置了不同的空间限制，但大多数会限制为每 个源 5MB
+
+#### IndexedDB
+
+- 数据库
+  - 是类似于 MySQL 或 Web SQL Database 的数据库
+  - 与传统数据库最大的区别在于， IndexedDB 使用对象存储而不是表格保存数据
+- 对象存储
+- 事务
+- 插入对象
+- 游标查询
+- 键范围
+- 设置游标方向
+- 索引
+- 并发问题
+- 限制
+
 ### 二十六、模块
 
+- 理解模块模式
+- 凑合的模块系统
+- 使用ES6之前的模块加载器
+- 使用ES6模块
+
 ### 二十七、工作者线程
+
+- 工作者线程简介
+- 专用工作者线程
+- 共享工作者线程
+- 服务工作者线程
 
 ### 二十八、最佳实践
