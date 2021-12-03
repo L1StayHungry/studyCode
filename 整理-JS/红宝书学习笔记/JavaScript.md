@@ -1982,6 +1982,283 @@ Performance 接口通过 JavaScript API 暴露了浏览器内部 的度量指标
 
 ### 二十四、网络请求与远程资源
 
+#### XMLHttpRequest对象
+
+- 使用XHR
+  - xhr.open("get", "example.php", false);
+
+  - xhr.send(null);    请求是同步的
+
+  - ```
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+     if (xhr.readyState == 4) {
+     if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+     alert(xhr.responseText);
+     } else {
+     alert("Request was unsuccessful: " + xhr.status);
+     }
+     }
+    };
+    xhr.open("get", "example.php", true);
+    xhr.setRequestHeader("MyHeader", "MyValue");
+    xhr.send(null); 
+    ```
+
+- HTTP头部
+  - Accept：浏览器可以处理的内容类型。
+  - Accept-Charset：浏览器可以显示的字符集。 
+  - Accept-Encoding：浏览器可以处理的压缩编码类型。
+  - Accept-Language：浏览器使用的语言。 
+  - Connection：浏览器与服务器的连接类型。
+  - Cookie：页面中设置的 Cookie。
+  - Host：发送请求的页面所在的域。 
+  - Referer：发送请求的页面的 URI。注意，这个字段在 HTTP 规范中就拼错了，所以考虑到兼容 性也必须将错就错。（正确的拼写应该是 Referrer。）
+  - User-Agent：浏览器的用户代理字符串。
+  - 如果需要发送额外 的请求头部，可以使用 setRequestHeader()方法
+
+- XMLHttpRequest Level 2
+
+  - FormData
+  - 超时
+
+  ```javascript
+  xhr.open("get", "timeout.php", true);
+  xhr.timeout = 1000; // 设置 1 秒超时
+  xhr.ontimeout = function() {
+   alert("Request did not return in a second.");
+  };
+  xhr.send(null); 
+  ```
+
+  - overrideMimeType()方法用于重写 XHR 响应的 MIME 类型
+
+#### 进度事件
+
+Progress Events 是 W3C 的工作草案，定义了客户端服务器端通信
+
+- loadstart 在接收到响应的第一个字节时触发
+
+- progress 在接收响应期间反复触发
+
+  - 接收event对象，target属性为XHR实例, 同时包含三个属性：
+  - lengthComputable 进度信息是否可用
+  - position 接收到的字节数
+  - totalSize 响应的 ContentLength 头部定义的总字节数
+  - 一般用于提供进度条
+
+- error 在请求出错时触发
+
+- abort 在调用 abort()终止连接时触发
+
+- load 在成功接收完响应时触发
+
+  - 目的，替代readystatechange事件
+
+  - 接收event对象，target属性为XHR实例
+
+  - ```javascript
+    let xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+     if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+     alert(xhr.responseText);
+     } else {
+     alert("Request was unsuccessful: " + xhr.status);
+     }
+    };
+    xhr.open("get", "altevents.php", true);
+    xhr.send(null);
+    ```
+
+  - 只要是从服务器收到响应，无论状态码是什么，都会触发 load 事件
+
+- loadend 在通信完成时，且在 error、abort 或 load 之后触发
+
+#### 跨源资源共享
+
+- 跨源资源共享（CORS，Cross-Origin Resource Sharing）
+  - 定义了浏览器与服务器如何实现跨源通信
+  - 基本思路就是使用自定义的 HTTP 头部允许浏览器和服务器相互了解，以确实请求或响应 应该成功还是失败
+  - 出于安全考虑，跨域 XHR 对象也施加了一些额外限制
+    - 不能使用 setRequestHeader()设置自定义头部
+    - 不能发送和接收 cookie
+    - getAllResponseHeaders()方法始终返回空字符串
+  - 预检请求
+    - 服务器验证机制，允许使用自定义头部以及不同请求体内容类型
+      - options方法
+      - 预检请求返回后，结果会按响应指定的时间缓存一段时间。换句话说，只有第一次发送这种类型的 请求时才会多发送一次额外的 HTTP 请求
+  - 凭据请求
+    - withCredentials属性设置为 true 来表明请求会发送凭据
+    - 响应Access-Control-Allow-Credentials: true则表明可以正常请求
+
+#### 替代性跨源技术
+
+- 图片检测
+
+  - 是利用\<img\>标签实现跨域通信
+  - 数据通过查询字符串发送，响应可以随意设置，不过一般是位图图片或值为 204 的状态码。 浏览器通过图片探测拿不到任何数据，但可以通过监听 onload 和 onerror 事件知道什么时候能接收到响应。
+  - 图片探测的缺点是只能发 送 GET 请求和无法获取服务器响应的内容
+
+- JSONP
+
+  - JSON with padding
+
+  - JSONP 看起来 跟 JSON 一样，只是会被包在一个函数调用里，比如： callback({ "name": "Nicholas" }); 
+
+  - JSONP 调用是通过动态创建\<script\>元素并为 src 属性指定跨域 URL 实现的
+
+  - ```javascript
+    //因为 JSONP 是有效的 JavaScript，所以 JSONP
+    响应在被加载完成之后会立即执行
+    function handleResponse(response) {
+     console.log(`
+     You're at IP address ${response.ip}, which is in
+     ${response.city}, ${response.region_name}`);
+    }
+    let script = document.createElement("script");
+    script.src = "http://freegeoip.net/json/?callback=handleResponse";
+    document.body.insertBefore(script, document.body.firstChild);
+    ```
+
+  - JSONP 是从不同的域拉取可执行代码。如果这个域并不可信，则可能在响应中加入恶意内容。
+
+  - 第二个缺点是不好确定 JSONP 请求是否失败
+
+#### Fetch API
+
+Fetch API 能够执行 XMLHttpRequest 对象的所有任务，但更容易使用，接口也更现代化，能够在 Web 工作线程等现代 Web 工具中使用。
+
+XMLHttpRequest 可以选择异步，而 Fetch API 则必须是异步
+
+- 基本用法
+
+  - 分派请求fetch()
+
+  ```
+  let r = fetch('/bar');
+  console.log(r); // Promise <pending>
+  
+  r.then(...)
+  ```
+
+  - 读取响应
+
+    - 返回的是promise, 用then就好啦
+
+    - ```javascript
+      //最简单方式是取得纯文本格式的内容，这要用到 text()方法。这个方法返回一个promise，会解决为取得资源的完整内容：
+      fetch('bar.txt')
+       .then((response) => {
+       	response.text().then((data) => {
+       		console.log(data);
+       	});
+       }); 
+      
+      // 内容的结构通常是打平的：
+      fetch('bar.txt')
+       .then((response) => response.text())
+       .then((data) => console.log(data));
+      ```
+
+  - 处理状态码和请求失败
+
+    - response.status // 200 404  500
+    - response.statusText // OK    Not Found    Internal Server Error
+
+  - 自定义选项：fetch(url, 自定义对象)
+
+  | 键             | 值                                                           |
+  | -------------- | ------------------------------------------------------------ |
+  | body           | 指定使用请求体时请求体的内容 必须是 Blob、BufferSource、FormData、URLSearchParams、ReadableStream 或 String 的 实例 |
+  | cache          | 用于控制浏览器与 HTTP缓存的交互。要跟踪缓存的重定向，请求的 redirect 属性值必须是"follow"， 而且必须符合同源策略限制。必须是下列值之一：Default、no-store、reload、no-cache、force-cache、only-if-cached |
+  | credentials    | 用于指定在外发请求中如何包含 cookie。omit、same-origin、include |
+  | header         | 用于指定请求头部                                             |
+  | integrity      | 用于强制子资源完整性                                         |
+  | keepalive      | 用于指示浏览器允许请求存在时间超出页面生命周期               |
+  | method         | 用于指定 HTTP 请求方法, 默认为 GET                           |
+  | mode           | 用于指定请求模式：cors、no-cors、same-origin、navigate       |
+  | redirect       | 用于指定如何处理重定向响应（状态码为 301、302、303、307 或 308） |
+  | referrer       | 用于指定 HTTP 的 Referer 头部的内容                          |
+  | referrerPolicy | 用于指定 HTTP 的 Referer 头部                                |
+  | signal         | 用于支持通过 AbortController 中断进行中的 fetch()请求        |
+
+- 常见Fetch请求模式
+
+  - 发送JSON数据
+  - 在请求体中发送参数
+  - 发送文件，formData
+  - 加载Blob文件
+  - 发送跨源请求
+  - 中断请求
+
+- Headers对象
+
+  - set
+  - has
+  - get
+  - delete
+  - append
+  - 头部护卫
+
+- Request对象
+
+  - fetch()和 Request 构造函数拥有相同的函数签名并不是巧合。在调用 fetch()时，可以传入已 经创建好的 Request 实例而不是 URL。
+  - 关键在于，通过 fetch 使用 Request 会将请求体标记为已使用。也就是说，有请求体的 Request 只能在一次 fetch 中使用
+
+- Response对象
+
+#### Beacon API
+
+- 给 navigator 对象增加了一个 sendBeacon()方法。这个简单的方法接收一个 URL 和一个数据有效载荷参数，并会发送一个 POST 请求
+- 通过浏览器的 unload 事件发送网络请求
+
+#### Web Socket
+
+- 长时连接实现与服务器全双工、双向的通信
+
+- 以初始化连接，服务器响应后，连接使用 HTTP 的 Upgrade 头部从 HTTP 协议切换到 Web Socket 协议
+
+- 优缺点
+
+  - 使用自定义协议而非 HTTP 协议的好处是，客户端与服务器之间可以发送非常少的数据，不会对 HTTP 造成任何负担。使用更小的数据包让 Web Socket 非常适合带宽和延迟问题比较明显的移动应用。
+  - 缺点是，定义协议的时间比定义 JavaScript API 要长。
+
+- API
+
+  - 实例化
+    - let socket = new WebSocket("ws://www.example.com/server.php");
+    - readyState 属性表示当前状态
+      - WebSocket.OPENING（0）：连接正在建立
+      - WebSocket.OPEN（1）：连接已经建立
+      - WebSocket.CLOSING（2）：连接正在关闭
+      - WebSocket.CLOSE（3）：连接已经关闭
+
+- 发送和接收数据
+
+  - send(个字符串、ArrayBuffer 或 Blob)
+  - 服务器向客户端发送消息时，WebSocket 对象上会触发 message 事件: 
+
+  ```javascript
+  socket.onmessage = function(event) {
+   let data = event.data;
+   // 对数据执行某些操作
+  }; 
+  ```
+
+- 其它事件
+
+  - open
+  - error
+  - close
+
+#### 安全
+
+- 跨站点请求伪造（CSRF，cross-site request forgery）
+  - 未授权系统可以访问某个资源时
+  - 预防：要验证请求发送者拥有对资源的访问权限
+    - SSL 访问
+    - token
+
 ### 二十五、客户端存储
 
 ### 二十六、模块
