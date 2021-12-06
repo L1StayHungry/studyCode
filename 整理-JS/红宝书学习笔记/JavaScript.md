@@ -883,7 +883,7 @@ ES6新增
     - prototype属性
     - constructor属性：Person.prototype.constructor 指向 Person
     - 在自定义构造函数时，原型对象默认只会获得 constructor 属性，其他的所有方法都继承自 Object。
-    - 每次调用构造函数创建一个新实例，这个实例的内部[[Prototype]]指针就会被赋值为构 造函数的原型对象。
+    - 每次调用构造函数创建一个新实例，这个实例的内部[[Prototype]]指针就会被赋值为构造函数的原型对象。
     - 脚本中没有访问这个[[Prototype]]特性的标准方式，但 Firefox、Safari 和 Chrome 会在每个对象上暴露\_\_proto\_\_属性，通过这个属性可以访问对象的原型。
     - isPrototypeOf(): Person.prototype.isPrototypeOf(person2); // true
   - 原型层级
