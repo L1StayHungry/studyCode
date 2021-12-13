@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>无限循环轮播图</title>
+  <style>
+    .hy-swiper {
+      margin: auto;
+
+      width: 305px;
+      height: 200px;
+
+      overflow: hidden;
+      
+      background-color: #eee;
+    }
+    .swiper {
+      /* 设置flex, 让图片水平排列 */
+      display: flex;
+      height: 200px;
+    }
+    .my-img {
+      width: 305px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="hy-swiper">
+    <div id="swiper" class="swiper"></div>
+  </div>
+
+  <script>
+    // 循环播放的时间
+    const interval = 2000;
+    let slideCount = 0;
+    // 图片容器宽度
+    let totalWidth;
+    // 图片容器样式
+    let swiperStyle;
+    // 定时器
+    let playTimer = null;
+    // 当前index
+    let currentIndex = 1;
+    // 是否正在滚动
+    // let scrolling = false
+    // 图片列表
+    let imgArr = [
+      './images/1.webp',
+      './images/2.webp',
+      './images/3.webp'
+    ]
+
+
+    // 插入图片，初始化轮播图
+    insertImg()
+    // 操作dom, 在前后添加slide
+    handleDom()
+    // 开启定时器
+    startTimer()
+
+    function insertImg() {
+      let m_innerHtml = ''
+      for(let img of imgArr){
+        m_innerHtml += `<img src="${img}" class="my-img"></img>`
+      }
+      const imgContent = document.getElementById('swiper')
+      imgContent.innerHTML = m_innerHtml
+    }
+
+    function handleDom() {
+      let swiperEl = document.getElementById('swiper')
+      // 获取元素轮播图个数
+      let slidesEls = swiperEl.getElementsByClassName("my-img");
+      // 保存个数
+      slideCount = slidesEls.length;
+
+      // 如果图片大于1，可轮播，在前后添加slide
+      let cloneFirst = slidesEls[0].cloneNode(true);
+      let cloneLast = slidesEls[slideCount - 1].cloneNode(true);
+      swiperEl.insertBefore(cloneLast, slidesEls[0]);
+      swiperEl.appendChild(cloneFirst);
+
+      // 获取宽度
+      totalWidth = swiperEl.offsetWidth;
+      // swiperStyle保存图片容器style,用于操作动画
+      swiperStyle = swiperEl.style;
+
+      // 让swiper元素, 显示真实的第一个图片
+      setTransform(-this.totalWidth);
+    }
+
+    // 设置滚动的位置
+    function setTransform(position) {
+      swiperStyle.transform = `translate3d(${position}px,0,0)`;
+      swiperStyle[
+        "-webkit-transform"
+      ] = `translate3d(${position}px), 0, 0`;
+      swiperStyle["-ms-transform"] = `translate3d(${position}px), 0, 0`;
+    }
+
+    // 定时器
+    function startTimer() {
+      playTimer = setInterval(() => {
+        console.log(currentIndex);
+        currentIndex++;
+        scrollContent(-currentIndex * totalWidth);
+      }, interval);
+    }
+
+    // 定时器
+    function stopTimer() {
+      window.clearInterval(playTimer);
+    }
+
+    // 滚到正确位置
+    function scrollContent(currentPosition) {
+      // 设置正在滚动
+      // scrolling = true;
+      // 开始滚动，过渡时长
+      // swiperStyle.transition = "transform" + animDuration + "ms";
+      setTransform(currentPosition);
+      // 判断滚动到的位置
+      checkPosition();
+      // 滚动完成
+      // this.scrolling = false;
+    }
+
+    // 校验正确的位置
+    function checkPosition() {
+      window.setTimeout(() => {
+        // 校验正确的位置
+        // swiperStyle.transition = "0ms";
+        if (currentIndex >= slideCount + 1) {
+          currentIndex = 1;
+          setTransform(-currentIndex * totalWidth);
+        } else if (currentIndex <= 0) {
+          currentIndex = slideCount;
+          setTransform(currentIndex * totalWidth);
+        }
+      })
+    }
+
+
+  </script>
+</body>
+</html>
